@@ -1,0 +1,13 @@
+Package: rPIBKC
+Type: Package
+Title: Package to  run the PIBKC stock assessment.
+Version: 0.5.0
+Date: 2015-06-20
+Author: William Stockhausen (NOAA/NMFS/AFSC)
+Maintainer: William Stockhausen <william.stockhausen@noaa.gov>
+Description: Contains functions to run the PIBKC stock assessment.
+License: MIT
+Imports:
+    ggplot2 (>= 1.0.0),
+    reshape2 (>= 1.4.1),
+    wtsUtilities (>= 1.0.0)
