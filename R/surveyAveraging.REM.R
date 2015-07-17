@@ -1,13 +1,12 @@
 #'
-#'@title Smooth survey data using inverse-variance averaging
+#'@title Smooth survey data using a REM (Random Effects[kalman filter] Model) 
 #'
-#'@description Function to smooth survey data using inverse-variance averaging
+#'@description Function to smooth survey data using a REM (Random Effects[kalman filter] Model) 
 #'
 #'@param srvData - raw survey data dataframe
 #'@param type - data type ('abundance' or 'biomass') to average
 #'@param sex - sex ('male' or 'female') to average
 #'@param category - category ('immature','mature', or 'legal') to average
-#'@param n - number of years to average across
 #'@param pdfType - distribution for CIs
 #'@param ci - confidence interval for CIs
 #'@param showPlot - flag (T/F) to plot results 
@@ -16,14 +15,15 @@
 #'
 #'@export
 #'
-surveyAveraging.InvVar<-function(srvData,
-                                 type='biomass',
-                                 sex='male',
-                                 category='mature',
-                                 n=3,
-                                 pdfType='lognormal',
-                                 ci=0.95,
-                                 showPlot=TRUE){
+surveyAveraging.REM<-function(srvData,
+                              type='biomass',
+                              sex='male',
+                              category='mature',
+                              pdfType='lognormal',
+                              ci=0.95,
+                              modelName='',
+                              ModelPath=getwd(),
+                              showPlot=TRUE){
     #select data
     idx<-(srvData$type==type)&(srvData$sex==sex)&(srvData$category==category);
     sd<-srvData[idx,];
