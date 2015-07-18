@@ -8,7 +8,7 @@
 doAssessment<-function(assYr=2014,
                        srvData=NULL,
                        fshData=NULL,
-                       srvTypeForMMB='averaged',
+                       srvTypeForMMB='IV',
                        yrsForBmsy=c(1980:1984,1990:1997),
                        nYrsSrvAvg=3,
                        nYrsTheta=3,
@@ -31,13 +31,27 @@ doAssessment<-function(assYr=2014,
     }
 
     #smooth survey data
-    avgSrvData<-surveyAveraging.InvVar(srvData,
-                                       type='biomass',
-                                       sex='male',
-                                       category='mature',
-                                       n=nYrsSrvAvg,
-                                       pdfType=pdfType,
-                                       ci=ci);
+    if (srvTypeForMMB=='IV'){
+        avgSrvData<-surveyAveraging.InvVar(srvData,
+                                           type='biomass',
+                                           sex='male',
+                                           category='mature',
+                                           n=nYrsSrvAvg,
+                                           pdfType=pdfType,
+                                           ci=ci);
+    } else if (srvTypeForMMB=='REM'){
+        avgSrvData<-surveyAveraging.REM(srvData,
+                                        type='biomass',
+                                        sex='male',
+                                        category='mature',
+                                        n=nYrsSrvAvg,
+                                        pdfType=pdfType,
+                                        ci=ci);
+    } else {
+        cat("Survey average method",srvTypeForMMB,"not recognized!\n")
+        cat('Aborting...\n')
+        return(NULL);
+    }
 
     #calculate MMB at mating time series
     lstMMB<-calcMMBMating(avgSrvData,

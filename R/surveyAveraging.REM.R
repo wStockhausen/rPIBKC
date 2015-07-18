@@ -1,17 +1,24 @@
 #'
-#'@title Smooth survey data using a REM (Random Effects[kalman filter] Model) 
+#'@title Smooth/interpolate survey data using a random effects(kalman filter) model (REM). 
 #'
-#'@description Function to smooth survey data using a REM (Random Effects[kalman filter] Model) 
+#'@description Function to smooth/interpolate survey data using a random effects(kalman filter) model (REM).
 #'
+#'@details This function uses an ADMB random effects model (originally developed by Jim Ianelli 
+#'and subsequently modified by William Stockhausen) to smooth/interpolate survey data.
+#'
+#'smooth survey data 
 #'@param srvData - raw survey data dataframe
 #'@param type - data type ('abundance' or 'biomass') to average
 #'@param sex - sex ('male' or 'female') to average
 #'@param category - category ('immature','mature', or 'legal') to average
 #'@param pdfType - distribution for CIs
 #'@param ci - confidence interval for CIs
+#'@param modelPath - path to ADMB REM used for survey averaging
 #'@param showPlot - flag (T/F) to plot results 
 #'
 #'@return dataframe with smoothed survey data
+#'
+#'@importFrom PBSmodelling readList
 #'
 #'@export
 #'
@@ -21,8 +28,7 @@ surveyAveraging.REM<-function(srvData,
                               category='mature',
                               pdfType='lognormal',
                               ci=0.95,
-                              modelName='',
-                              ModelPath=getwd(),
+                              modelPath=getPath2REM(),
                               showPlot=TRUE){
     #select data
     idx<-(srvData$type==type)&(srvData$sex==sex)&(srvData$category==category);
@@ -38,35 +44,57 @@ surveyAveraging.REM<-function(srvData,
     }
     dfr<-data.frame(year=sd$year,type='raw',value=sd$value,lci=lci,uci=uci);
 
-    #set up counters
-    np<-(n-1)/2;
-    ny<-nrow(sd);
+    #determine model name and OS
+    os<-'OSX';
+    model<-basename(modelPath);
+    if (substr(model,length(model)-3,length(model))=='.exe') {
+        os<-'win';
+        model<-substr(model,1,length(model)-4)
+    }
+    
+    #switch to run folder (create if necessary)
+    currdir<-getwd();
+    on.exit(setwd(currdir));
+    path<-file.path(currdir,'admb')
+    if (!file.exists(path)) dir.create(path,recursive=TRUE)
+    setwd(path);
+    cat("Running REM at '",path,"'.\n",sep='');
 
-    #do averaging
-    val <-vector(mode='numeric',length=ny)+NA;
-    cv  <-vector(mode='numeric',length=ny)+NA;
-    for (y in (1+np):ny){
-        val[y] <-0;
-        twgt   <-0;
-        if (y<=(ny-np)) {
-            ns<-(-np):np;
-        } else {
-            ns<-(-np):(np-(y-(ny-np)));
-            cat('ny = ',ny,', y = ',y,', ns = ',ns,'\n',sep='')
-        }
-        for (n in ns){
-            var   <-(sd$cv[y+n]*sd$value[y+n])^2;
-            wgt   <-1/var;
-            twgt  <-twgt+wgt;
-            val[y]<-val[y]+wgt*sd$value[y+n];
-        }#n
-        val[y]<-val[y]/twgt;
-        var   <-1/twgt;
-        cv[y] <-sqrt(var)/val[y];
-    }#y
+    #set up input data file to REM
+    con<-file(paste(model,'dat',sep='.'),open='wt');
+    writeLines(paste(min(sd$year),   "\t#min year"),con);
+    writeLines(paste(max(sd$year),   "\t#max year"),con);
+    writeLines(paste(length(sd$year),"\t#number of observations"),con);
+    writeLines(paste(0,              "\t#uncertainty type (0 = cv's, 1 = sd's)"),con);
+    csv<-sd[,c("year","value","cv")];
+    writeLines("#year    value     cv",con)
+    write.table(csv,file=con,append=TRUE,row.names=FALSE,col.names=FALSE);
+    close(con);
+    
+    #set up commands
+    run.cmds<-getRunCommands(os=os,path2model=modelPath,hess=TRUE);
+    cat(run.cmds,"\n")
+    
+    #run the ADMB model
+    if (tolower(os)=='win'){
+        cat(run.cmds,file="tmp.bat")
+        Sys.chmod("tmp.bat",mode='7777')
+        system("tmp.bat",wait=TRUE);
+    } else {
+        cat(run.cmds,file="./tmp.sh")
+        Sys.chmod("./tmp.sh",mode='7777')
+        system("./tmp.sh",wait=TRUE);
+    }
+    
+    #read model results
+    fn.par<-file.path(getwd(),"&&model.par");
+    fn.par<-gsub('&&model',tolower(model),fn.par)
+    
+    res.REM<-readList('rwout.rep')
 
-    res<-calcCIs(val,cv,pdfType=pdfType,ci=ci);
-    dfr<-rbind(dfr,data.frame(year=sd$year,type='averaged',value=val,lci=res$lci,uci=res$uci));
+    #finish off the output
+    res<-calcCIs(res.REM$est,res.REM$cv,pdfType=pdfType,ci=ci);
+    dfr<-rbind(dfr,data.frame(year=res.REM$yrs,type='REM',value=res.REM$est,lci=res$lci,uci=res$uci));
 
     if (showPlot) plotAvgdData(dfr);
     

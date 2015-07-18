@@ -66,7 +66,7 @@ surveyAveraging.InvVar<-function(srvData,
     }#y
 
     res<-calcCIs(val,cv,pdfType=pdfType,ci=ci);
-    dfr<-rbind(dfr,data.frame(year=sd$year,type='averaged',value=val,lci=res$lci,uci=res$uci));
+    dfr<-rbind(dfr,data.frame(year=sd$year,type='IV',value=val,lci=res$lci,uci=res$uci));
 
     if (showPlot) plotAvgdData(dfr);
     

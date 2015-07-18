@@ -5,7 +5,7 @@
 \title{Do assessment.}
 \usage{
 doAssessment(assYr = 2014, srvData = NULL, fshData = NULL,
-  srvTypeForMMB = "averaged", yrsForBmsy = c(1980:1984, 1990:1997),
+  srvTypeForMMB = "IV", yrsForBmsy = c(1980:1984, 1990:1997),
   nYrsSrvAvg = 3, nYrsTheta = 3, M = 0.18, t.sf = 3/12, t.fm = 4/12,
   hm.pot = 0.5, hm.trl = 0.8, pct.male = 0.5, gamma = 1, alpha = 0.1,
   beta = 0.25, pdfType = "lognormal", ci = 0.95)
