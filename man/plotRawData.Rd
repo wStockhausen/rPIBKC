@@ -4,21 +4,26 @@
 \alias{plotRawData}
 \title{Plot raw survey and fishery data.}
 \usage{
-plotRawData(srvData = NULL, fshData = NULL, pdfType = "lognormal",
-  ci = 0.95)
+plotRawData(srvData = NULL, fshData = NULL, yr2 = 1990,
+  pdfType = "lognormal", ci = 0.95, showPlot = FALSE)
 }
 \arguments{
 \item{srvData}{- survey data dataframe, path to csv file, or NULL}
 
 \item{fshData}{- fisheries data dataframe, path to csv file, or NULL}
 
+\item{yr2}{- starting year for 2nd arithmetic scale plot}
+
 \item{pdfType}{- probability distribution for error bars}
 
 \item{ci}{- confidence interval for error bar plots}
+
+\item{showPlot}{- flag (T/F) to show plots immediately}
 }
 \value{
-list with srvData, fshData as elements. For survey data, abundance is in
-milllions and biomass is in 1000's t. For fishery data, catch biomass is in t.
+list with srvData, fshData, and plots as elements. For survey data, abundance is in
+milllions and biomass is in 1000's t. For fishery data, catch biomass is in t. plots is a
+list with ggplot2 objects as elements.
 }
 \description{
 Function to plot raw survey and fishery data.

@@ -5,11 +5,14 @@
 #'
 #'@param srvData - survey data dataframe, path to csv file, or NULL
 #'@param fshData - fisheries data dataframe, path to csv file, or NULL
+#'@param yr2 - starting year for 2nd arithmetic scale plot
 #'@param pdfType - probability distribution for error bars
 #'@param ci - confidence interval for error bar plots
+#'@param showPlot - flag (T/F) to show plots immediately
 #'
-#'@return list with srvData, fshData as elements. For survey data, abundance is in
-#'milllions and biomass is in 1000's t. For fishery data, catch biomass is in t.
+#'@return list with srvData, fshData, and plots as elements. For survey data, abundance is in
+#'milllions and biomass is in 1000's t. For fishery data, catch biomass is in t. plots is a 
+#'list with ggplot2 objects as elements.
 #'
 #'@import ggplot2
 #'@importFrom wtsUtilities selectFile
@@ -18,8 +21,10 @@
 #'
 plotRawData<-function(srvData=NULL,
                       fshData=NULL,
+                      yr2=1990,
                       pdfType='lognormal',
-                      ci=0.95
+                      ci=0.95,
+                      showPlot=FALSE
                       ){
     if (is.null(srvData)|is.character(srvData)) srvData<-getSurveyData(srvData);
     if (is.null(fshData)|is.character(fshData)) fshData<-getFisheryData(fshData);
@@ -41,24 +46,24 @@ plotRawData<-function(srvData=NULL,
     p <- p + coord_cartesian(ylim=c(0,ymx));
     p <- p + ylab("Survey Biomass (1000's t)");
     p <- p + facet_grid(category~.);
-    p1 <- p;
-    print(p1)
+    pS1 <- p;
+    if (showPlot) print(pS1);
 
-    bSD2<-bSD1[bSD1$year>=1990,];
+    bSD2<-bSD1[bSD1$year>=yr2,];
     ymx <- sort(bSD2$uci,decreasing=TRUE)[1];
-    p2 <- p %+% bSD2
-    p2 <- p2 + coord_cartesian(ylim=c(0,ymx));
-    print(p2);
+    pS2 <- p %+% bSD2
+    pS2 <- pS2 + coord_cartesian(ylim=c(0,ymx));
+    if (showPlot) print(pS2);
 
     bSD3<-bSD1;
     bSD3$value<-log10(bSD3$value);
     bSD3$uci<-log10(bSD3$uci);
     bSD3$lci<-log10(bSD3$lci);
     ymx <- sort(bSD3$uci,decreasing=TRUE)[1];
-    p3 <- p %+% bSD3;
-    p3 <- p3 + coord_cartesian(ylim=NULL);
-    p3 <- p3 + ylab("log10-scale Survey Biomass (1000's t)");
-    print(p3);
+    pS3 <- p %+% bSD3;
+    pS3 <- pS3 + coord_cartesian(ylim=NULL);
+    pS3 <- pS3 + ylab("log10-scale Survey Biomass (1000's t)");
+    if (showPlot) print(pS3);
 
     #--fishery data--
     #plot fishery data
@@ -69,11 +74,12 @@ plotRawData<-function(srvData=NULL,
     p <- p + ylab("Fishery Catch (1000's t)");
     p <- p + facet_grid(type~.,scales="free_y");
     pF1 <- p;
-    print(pF1);
+    if (showPlot) print(pF1);
 
     pF2 <- p %+% fshData[fshData$year>=1990,];
-    print(pF2);
+    if (showPlot) print(pF2);
 
-    return(invisible(list(srvData=srvData,fshData=fshData)));
+    return(invisible(list(srvData=srvData,fshData=fshData,
+                          plots=list(pS1=pS1,pS2,pS3,pF1,pF2))));
 }
 

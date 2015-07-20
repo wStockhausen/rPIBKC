@@ -4,15 +4,17 @@
 \alias{plotAvgdData}
 \title{Plot averaged data.}
 \usage{
-plotAvgdData(dfr, yr2 = 1990)
+plotAvgdData(dfr, yr2 = 1990, showPlot = FALSE)
 }
 \arguments{
 \item{dfr}{- dataframe output from one of the surveyAveraging functions}
 
-\item{yr2}{- year to start 2nd plot with}
+\item{yr2}{- starting year for 2nd arithmetic scale plot}
+
+\item{showPlot}{- flag (T/F) to show plots immediately}
 }
 \value{
-none
+list with ggplot2 objects as elements arScl1, arScl2, lnScl
 }
 \description{
 Function to plot averaged (and raw) data using output from one of the surveyAveraging functions.
