@@ -10,9 +10,19 @@
 #'@param ci - confidence interval for error bar plots
 #'@param showPlot - flag (T/F) to show plots immediately
 #'
-#'@return list with srvData, fshData, and plots as elements. For survey data, abundance is in
-#'milllions and biomass is in 1000's t. For fishery data, catch biomass is in t. plots is a 
-#'list with ggplot2 objects as elements.
+#'@return list with named elements
+#'\itemize{
+#'  \item srvData - dataframe w/ abundance is in milllions and biomass is in 1000's t
+#'  \item fshData - dataframe w/ catch biomass is in t
+#'  \item plots - list with ggplot2 objects 
+#'  \itemize{
+#'      \item pS1
+#'      \item pS2
+#'      \item pS3
+#'      \item pF1
+#'      \item pF2
+#'  \}
+#'\}
 #'
 #'@import ggplot2
 #'@importFrom wtsUtilities selectFile
@@ -80,6 +90,6 @@ plotRawData<-function(srvData=NULL,
     if (showPlot) print(pF2);
 
     return(invisible(list(srvData=srvData,fshData=fshData,
-                          plots=list(pS1=pS1,pS2,pS3,pF1,pF2))));
+                          plots=list(pS1=pS1,pS2=pS2,pS3=pS3,pF1=pF1,pF2=pF2))));
 }
 

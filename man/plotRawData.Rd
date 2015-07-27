@@ -23,7 +23,7 @@ plotRawData(srvData = NULL, fshData = NULL, yr2 = 1990,
 \value{
 list with srvData, fshData, and plots as elements. For survey data, abundance is in
 milllions and biomass is in 1000's t. For fishery data, catch biomass is in t. plots is a
-list with ggplot2 objects as elements.
+list with ggplot2 objects pS1, pS2, pS3, pF1, and pF2 as elements.
 }
 \description{
 Function to plot raw survey and fishery data.

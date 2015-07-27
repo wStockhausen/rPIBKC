@@ -9,6 +9,8 @@
 #'@param hess -
 #'@param mcmc -
 #'
+#'@return string with the run commands
+#'
 #'@export
 #'
 getRunCommands<-function(os='osx',

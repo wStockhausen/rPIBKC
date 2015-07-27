@@ -10,6 +10,7 @@
 #'@param n - number of years to average across
 #'@param pdfType - distribution for CIs
 #'@param ci - confidence interval for CIs
+#'@param verbose - flag (T/F) to print intermediate output
 #'@param showPlot - flag (T/F) to plot results 
 #'
 #'@return dataframe with smoothed survey data
@@ -23,7 +24,8 @@ surveyAveraging.InvVar<-function(srvData,
                                  n=3,
                                  pdfType='lognormal',
                                  ci=0.95,
-                                 showPlot=TRUE){
+                                 verbose=FALSE,
+                                 showPlot=FALSE){
     #select data
     idx<-(srvData$type==type)&(srvData$sex==sex)&(srvData$category==category);
     sd<-srvData[idx,];
@@ -52,7 +54,7 @@ surveyAveraging.InvVar<-function(srvData,
             ns<-(-np):np;
         } else {
             ns<-(-np):(np-(y-(ny-np)));
-            cat('ny = ',ny,', y = ',y,', ns = ',ns,'\n',sep='')
+            if (verbose) cat('ny = ',ny,', y = ',y,', ns = ',ns,'\n',sep='')
         }
         for (n in ns){
             var   <-(sd$cv[y+n]*sd$value[y+n])^2;
@@ -65,7 +67,7 @@ surveyAveraging.InvVar<-function(srvData,
         cv[y] <-sqrt(var)/val[y];
     }#y
 
-    res<-calcCIs(val,cv,pdfType=pdfType,ci=ci);
+    res<-calcCIs(val,cv,pdfType=pdfType,ci=ci,verbose=verbose);
     dfr<-rbind(dfr,data.frame(year=sd$year,type='IV',value=val,lci=res$lci,uci=res$uci));
 
     if (showPlot) plotAvgdData(dfr);

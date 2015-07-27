@@ -6,7 +6,7 @@
 \usage{
 surveyAveraging.InvVar(srvData, type = "biomass", sex = "male",
   category = "mature", n = 3, pdfType = "lognormal", ci = 0.95,
-  showPlot = TRUE)
+  verbose = FALSE, showPlot = FALSE)
 }
 \arguments{
 \item{srvData}{- raw survey data dataframe}
@@ -22,6 +22,8 @@ surveyAveraging.InvVar(srvData, type = "biomass", sex = "male",
 \item{pdfType}{- distribution for CIs}
 
 \item{ci}{- confidence interval for CIs}
+
+\item{verbose}{- flag (T/F) to print intermediate output}
 
 \item{showPlot}{- flag (T/F) to plot results}
 }

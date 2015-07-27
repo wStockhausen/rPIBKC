@@ -14,11 +14,17 @@
 #'@param pdfType - distribution for CIs
 #'@param ci - confidence interval for CIs
 #'@param modelPath - path to ADMB REM used for survey averaging
+#'@param verbose - flag (T/F) to print intermediate output
 #'@param showPlot - flag (T/F) to plot results 
 #'
 #'@return dataframe with smoothed survey data
 #'
 #'@importFrom PBSmodelling readList
+#'
+#'@details Smoothing is done using a Kalman filter/Random Effects Model
+#'written in ADMB (C++) code. The single estimated parameter is the 
+#'ln-scale process error variance for annual changes in survey abundance/biomass
+#'modeled as a random walk process. The estimated time series is output.
 #'
 #'@export
 #'
@@ -29,7 +35,8 @@ surveyAveraging.REM<-function(srvData,
                               pdfType='lognormal',
                               ci=0.95,
                               modelPath=getPath2REM(),
-                              showPlot=TRUE){
+                              verbose=FALSE,
+                              showPlot=FALSE){
     #select data
     idx<-(srvData$type==type)&(srvData$sex==sex)&(srvData$category==category);
     sd<-srvData[idx,];
@@ -58,7 +65,7 @@ surveyAveraging.REM<-function(srvData,
     path<-file.path(currdir,'admb')
     if (!file.exists(path)) dir.create(path,recursive=TRUE)
     setwd(path);
-    cat("Running REM at '",path,"'.\n",sep='');
+    if (verbose) cat("Running REM at '",path,"'.\n",sep='');
 
     #set up input data file to REM
     con<-file(paste(model,'dat',sep='.'),open='wt');
@@ -73,7 +80,7 @@ surveyAveraging.REM<-function(srvData,
     
     #set up commands
     run.cmds<-getRunCommands(os=os,path2model=modelPath,hess=TRUE);
-    cat(run.cmds,"\n")
+    if (verbose) cat(run.cmds,"\n")
     
     #run the ADMB model
     if (tolower(os)=='win'){
@@ -93,7 +100,7 @@ surveyAveraging.REM<-function(srvData,
     res.REM<-readList('rwout.rep')
 
     #finish off the output
-    res<-calcCIs(res.REM$est,res.REM$cv,pdfType=pdfType,ci=ci);
+    res<-calcCIs(res.REM$est,res.REM$cv,pdfType=pdfType,ci=ci,verbose=verbose);
     dfr<-rbind(dfr,data.frame(year=res.REM$yrs,type='REM',value=res.REM$est,lci=res$lci,uci=res$uci));
 
     if (showPlot) plotAvgdData(dfr);

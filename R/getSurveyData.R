@@ -6,7 +6,15 @@
 #'@param fn - survey data filename
 #'
 #'@return dataframe with columns
-#' year, type (abundance/biomass), sex, category, units, value, cv.
+#'\itemize{
+#'  \item year
+#'  \item type (abundance/biomass)
+#'  \item sex
+#'  \item category
+#'  \item units
+#'  \item value
+#'  \item cv
+#'\}
 #' Input units are converted to 1000's t (biomass) and millions (abundance).
 #'
 #'@importFrom wtsUtilities selectFile

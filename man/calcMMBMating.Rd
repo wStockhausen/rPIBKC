@@ -6,7 +6,7 @@
 \usage{
 calcMMBMating(avgSrvData, fshData, type = "averaged", M = 0.18,
   t.sf = 3/12, t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8,
-  pct.male = 0.5)
+  pct.male = 0.5, showPlot = FALSE)
 }
 \arguments{
 \item{avgSrvData}{- dataframe with MMB at time of survey}
@@ -28,7 +28,24 @@ calcMMBMating(avgSrvData, fshData, type = "averaged", M = 0.18,
 \item{pct.male}{- assumed male percentage}
 }
 \value{
-list with MMB at mating and other time series
+list with MMB at mating and other time series. Elements are:
+\itemize{
+ \item mmbMat = MB at maturity
+ \item mmbFsh = MMB at fishery time
+ \item mmbSrv = MMB at survey time
+ \item retM = retained mortality
+ \item dscM = list with elements:
+ \itemize{
+     \item tot = total discard mortality
+     \item gft = groundfish trawl fisheries mortality
+     \item gfp = groundfish pot fisheries mortality
+     \item crb = crab fisheries discard mortality
+ }
+ \item plots = list with elements:
+ \itemize{
+     \item MMB = MMB time series ggplot2 plot object
+ }
+}
 }
 \description{
 Function to calculate MMMB at mating.

@@ -8,8 +8,10 @@
 #'@param n      - number of years to average
 #'
 #'@return 2-element vector with theta calculated as
-#'1. ration of averages
-#'2. average of ratios
+#'\enumerate{
+#'  \item ratio of averages
+#'  \item average of ratios
+#'}
 #'
 #'@export
 #'

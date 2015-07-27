@@ -4,11 +4,105 @@
 \alias{doAssessment}
 \title{Do assessment.}
 \usage{
-doAssessment(assYr = 2014, srvData = NULL, fshData = NULL,
-  srvTypeForMMB = "IV", yrsForBmsy = c(1980:1984, 1990:1997),
-  nYrsSrvAvg = 3, nYrsTheta = 3, M = 0.18, t.sf = 3/12, t.fm = 4/12,
-  hm.pot = 0.5, hm.trl = 0.8, pct.male = 0.5, gamma = 1, alpha = 0.1,
-  beta = 0.25, pdfType = "lognormal", ci = 0.95)
+doAssessment(assYr = 2014, recentYr = 1990, srvData = NULL,
+  fshData = NULL, avgTypeForMMB = "IV", yrsForBmsy = c(1980:1984,
+  1990:1997), nYrsSrvAvg = 3, nYrsTheta = 3, M = 0.18, t.sf = 3/12,
+  t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8, pct.male = 0.5, gamma = 1,
+  alpha = 0.1, beta = 0.25, pdfType = "lognormal", ci = 0.95,
+  verbose = FALSE, showPlot = FALSE)
+}
+\arguments{
+\item{assYr}{- year of assessment}
+
+\item{srvData}{- survey data dataframe, path to csv file, or NULL}
+
+\item{fshData}{- fisheries data dataframe, path to csv file, or NULL}
+
+\item{avgTypeForMMB}{- flag indicating averaging type for survey data ('IV' or 'REM')}
+
+\item{yrsForBmsy}{- years for Bmsy calculation}
+
+\item{nYrsSrvAvg}{-}
+
+\item{nYrsTheta}{-}
+
+\item{M}{- natural mortality}
+
+\item{t.sf}{- time from survey to fishery}
+
+\item{t.fm}{- time from fishery to mating}
+
+\item{hm.pot}{- pot fisheries handling mortality rate}
+
+\item{hm.trl}{- trawl fisheries handling mortality rate}
+
+\item{pct.male}{- assumed male percentage}
+
+\item{gamma}{- multiplicative factor on M for maxFofl}
+
+\item{alpha}{- x-intercept of sloping control line}
+
+\item{beta}{- threshold mmb/Bmsy to allow a directed fishery}
+
+\item{pdfType}{- probability distribution for error bars}
+
+\item{ci}{- confidence interval for error bar plots}
+
+\item{verbose}{- flag (T/F) to print intermediate output}
+
+\item{showPlot}{- flag (T/F) to plot results}
+}
+\value{
+list consisting of elements
+\itemize{
+ \item data - list with elements:
+ \itemize{
+   \item fshData=
+   \item srvData
+   \item avgSrvData
+   \item plots.RawData - list of ggplot2 objects
+   \item plots.AvgdData - list of ggplot2 objects
+ }
+ \item lstMMB - list from calcMMBmating:
+ \itemize{
+   \item mmbMat = MB at maturity
+   \item mmbFsh = MMB at fishery time
+   \item mmbSrv = MMB at survey time
+   \item retM = retained mortality
+   \item dscM = list with elements:
+   \itemize{
+     \item tot = total discard mortality
+     \item gft = groundfish trawl fisheries mortality
+     \item gfp = groundfish pot fisheries mortality
+     \item crb = crab fisheries discard mortality
+   }
+ \item plots = list with elements:
+   \itemize{
+     \item MMB = MMB time series ggplot2 plot object
+   }
+ }
+ \item inputs.OFL - list with elements
+ \itemize{
+   \item mmbSrvCurr
+   \item Bmsy
+   \item theta
+   \item M
+   \item gamma
+   \item alpha
+   \item beta
+   \item t.sf
+   \item t.fm
+ }
+ \item lstOFL - list from calcOFL
+ \itemize{
+   \item maxFofl = max allowed Fofl (=gamma*M)
+   \item Bmsy   = Bmsy
+   \item Fofl   = Fofl
+   \item prjMMB = projected MMB
+   \item retOFL = retained portion of total OFL
+   \item dscOFL = discard portion of total OFL
+ }
+}
 }
 \description{
 Function to do the assessment

@@ -7,7 +7,12 @@
 #'@param yr2 - starting year for 2nd arithmetic scale plot
 #'@param showPlot - flag (T/F) to show plots immediately
 #'
-#'@return list with ggplot2 objects as elements arScl1, arScl2, lnScl
+#'@return list with ggplot2 objects as named elements 
+#'\itemize{
+#'  \item arScl1 - arithmetic scale plot
+#'  \item arScl2 - arithmetic scale plot, sstarting at yr2
+#'  \item lnScl = log-scale plot
+#'\}
 #'
 #'@import ggplot2
 #'

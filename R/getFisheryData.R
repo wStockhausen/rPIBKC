@@ -6,7 +6,15 @@
 #'@param fn - fishery data filename
 #'
 #'@return dataframe with columns
-#' year, type (abundance/biomass), fishery, gear (pot/trawl), units, category, catch
+#'\itemize{
+#'  \item year
+#'  \item type (abundance/biomass)
+#'  \item fishery
+#'  \item gear (pot/trawl)
+#'  \item units
+#'  \item category
+#'  \item catch
+#'}
 #' Input units are converted to 1000's t (biomass) and millions (abundance).
 #'
 #'@importFrom wtsUtilities selectFile

@@ -11,7 +11,12 @@
 #'@param t.fm - time from fishery to mating
 #'@param pct.male - assumed male percentage
 #'
-#'@return projected MMB at mating
+#'@return list with elements:
+#'\itemize{
+#'  \item mmb=mmbMatPrj
+#'  \item retM=prjRet,
+#'  \item dscM=prjDsc
+#'}
 #'
 #'@export
 #'

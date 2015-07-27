@@ -4,7 +4,7 @@
 \alias{calcCIs}
 \title{Compute confidence intervals}
 \usage{
-calcCIs(vals, cvs, pdfType = "lognormal", ci = 0.95)
+calcCIs(vals, cvs, pdfType = "lognormal", ci = 0.95, verbose = FALSE)
 }
 \arguments{
 \item{vals}{- vector of values}
@@ -14,6 +14,8 @@ calcCIs(vals, cvs, pdfType = "lognormal", ci = 0.95)
 \item{pdfType}{- probability distribution for error bars}
 
 \item{ci}{- confidence interval for error bar plots}
+
+\item{verbose}{- flag (T/F) to print intermediate output}
 }
 \description{
 Function to compute confidence intervals.

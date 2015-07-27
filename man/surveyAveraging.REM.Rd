@@ -6,7 +6,7 @@
 \usage{
 surveyAveraging.REM(srvData, type = "biomass", sex = "male",
   category = "mature", pdfType = "lognormal", ci = 0.95,
-  modelPath = getPath2REM(), showPlot = TRUE)
+  modelPath = getPath2REM(), verbose = FALSE, showPlot = FALSE)
 }
 \arguments{
 \item{srvData}{- raw survey data dataframe}
@@ -22,6 +22,8 @@ surveyAveraging.REM(srvData, type = "biomass", sex = "male",
 \item{ci}{- confidence interval for CIs}
 
 \item{modelPath}{- path to ADMB REM used for survey averaging}
+
+\item{verbose}{- flag (T/F) to print intermediate output}
 
 \item{showPlot}{- flag (T/F) to plot results}
 }

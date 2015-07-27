@@ -22,7 +22,10 @@ calcPrjMMB(mmbSrvCurr, Fm, theta, M = 0.18, t.sf = 3/12, t.fm = 4/12)
 \item{pct.male}{- assumed male percentage}
 }
 \value{
-projected MMB at mating
+list with elements:
+* mmb=mmbMatPrj
+* retM=prjRet,
+* dscM=prjDsc
 }
 \description{
 Function to calculate projected MMMB at mating.

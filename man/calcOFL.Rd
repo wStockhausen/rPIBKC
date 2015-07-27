@@ -2,13 +2,43 @@
 % Please edit documentation in R/calcOFL.R
 \name{calcOFL}
 \alias{calcOFL}
-\title{Calculate the OFL.}
+\title{Calculate the OFL using a Tier 4 approach.}
 \usage{
 calcOFL(mmbSrvCurr, Bmsy, theta, M = 0.18, gamma = 1, alpha = 0.1,
   beta = 0.25, t.sf = 3/12, t.fm = 4/12)
 }
+\arguments{
+\item{mmbSrvCurr}{- "current" MMB at time of survey}
+
+\item{Bmsy}{- Bmsy (see calcBmsy())}
+
+\item{theta}{- theta (see calcTheta())}
+
+\item{M}{- natural mortality rate}
+
+\item{gamma}{- gamma for Tier 4 F_{ofl_{max}}}
+
+\item{alpha}{- intercept (as fraction of Bmsy) for sloping portion of control rule}
+
+\item{beta}{-  minimum stock size (as fraction of Bmsy) at which directed fishing may occur}
+
+\item{t.sf}{- time (fraction of year) from survey to fishery}
+
+\item{t.fm}{- time (as fraction of year) from fishery to mating}
+}
+\value{
+List with elements:
+\itemize{
+ \item maxFofl = max allowed Fofl (=gamma*M)
+ \item Bmsy   = Bmsy
+ \item Fofl   = Fofl
+ \item prjMMB = projected MMB
+ \item retOFL = retained portion of total OFL
+ \item dscOFL = discard portion of total OFL
+}
+}
 \description{
-Function to calculate the OFL.
+Function to calculate the OFL using a Tier 4 approach.
 }
 \details{
 

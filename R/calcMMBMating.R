@@ -13,7 +13,24 @@
 #'@param hm.trl - handling mortality rate for trawl fisheries
 #'@param pct.male - assumed male percentage
 #'
-#'@return list with MMB at mating and other time series
+#'@return list with MMB at mating and other time series. Elements are:
+#'\itemize{
+#'  \item mmbMat = MB at maturity
+#'  \item mmbFsh = MMB at fishery time
+#'  \item mmbSrv = MMB at survey time
+#'  \item retM = retained mortality
+#'  \item dscM = list with elements: 
+#'  \itemize{
+#'      \item tot = total discard mortality
+#'      \item gft = groundfish trawl fisheries mortality
+#'      \item gfp = groundfish pot fisheries mortality
+#'      \item crb = crab fisheries discard mortality
+#'  }
+#'  \item plots = list with elements: 
+#'  \itemize{
+#'      \item MMB = MMB time series ggplot2 plot object 
+#'  }
+#'}
 #'
 #'@import ggplot2
 #'
@@ -27,7 +44,8 @@ calcMMBMating<-function(avgSrvData,
                         t.fm=4/12,
                         hm.pot=0.5,
                         hm.trl=0.8,
-                        pct.male=0.5){
+                        pct.male=0.5,
+                        showPlot=FALSE){
     #pull out survey MMB data
     idx<-avgSrvData$type==type;
     mmbYrs<-avgSrvData$year[idx];
@@ -81,7 +99,9 @@ calcMMBMating<-function(avgSrvData,
     p <- p + geom_point(position=pd,size=3);
     p <- p + geom_line( position=pd,size=1,alpha=1);
     p <- p + ylab("MMB at mating (1000's t)");
-    print(p);
+    if (showPlot) print(p);
 
-    return(list(mmbMat=mmbMat,mmbFsh=mmbFsh,mmbSrv=mmbSrv,retM=retM,dscM=list(tot=dscTotM,gft=dsc.gft,gfp=dsc.gfp,crb=dsc.crb)))
+    return(list(mmbMat=mmbMat,mmbFsh=mmbFsh,mmbSrv=mmbSrv,
+                retM=retM,dscM=list(tot=dscTotM,gft=dsc.gft,gfp=dsc.gfp,crb=dsc.crb),
+                plots=list(MMB=p)));
 }
