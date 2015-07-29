@@ -1,0 +1,202 @@
+---
+title: "PIBKC Stock Assessment"
+author: "William Stockhausen"
+date: "July 18, 2015"
+output: pdf_document
+---
+```{r,echo=FALSE}
+setwd("../test")
+```
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+## Introduction
+This document constitutes an appendix to the stock assessment chapter for the Pribilof Islands blue king crab stock (PIBKC). It outlines and presents results for status determination (is the stock overfished?, is overfishing occurring?) based on the rPIBKC R package developed by William Stockhausen (NOAA/NMFS/AFSC). The rPIBKC package (source code and R package) is available under source control at URL??
+
+```{r,echo=FALSE}
+##set knitr options for subsequent chunks
+knitr::opts_chunk$set(fig.width = 7, fig.height = 4, echo = FALSE, error=FALSE, message=FALSE, warning=FALSE)
+```
+
+```{r,echo=FALSE}
+##set counters (fig, tbl) and values for input variables
+require(rPIBKC);
+require(wtsUtilities);
+fig<-0;
+tbl<-0;
+assYr=2014;
+recentYear=1990;
+srvData=NULL;
+fshData=NULL;
+yrsForBmsy=c(1980:1984,1990:1997);
+nYrsSrvAvg=3;
+nYrsTheta=3;
+M=0.18;
+t.sf=3/12;
+t.fm=4/12;
+hm.pot=0.5;
+hm.trl=0.8;
+pct.male=0.5;
+gamma=1.0;
+alpha=0.1;
+beta=0.25;
+pdfType='lognormal';
+ci=0.95;
+verbose=FALSE;
+showPlot=FALSE;
+```
+
+##Fishery data
+```{r,echo=FALSE}
+##select fishery data file
+fnF<-selectFile(ext="csv",caption="Select csv file with PIBKC fishery data")
+fshData<-getFisheryData(fnF);
+```
+Fishery data from file "`r fnF`" was used for the assessment.
+
+##Survey data
+```{r,echo=FALSE}
+##select survey data file
+fnS<-selectFile(ext="csv",caption="Select csv file with PIBKC survey data")
+srvData<-getSurveyData(fnS);
+```
+Survey data from file "`r fnS`" was used for the assessment.
+
+The fishery and survey data are compared in the following plot:
+```{r,echo=FALSE}
+knitr::opts_chunk$set(fig.width = 7, fig.height = 4)
+res<-plotRawData(srvData,fshData,yr2=recentYear,pdfType=pdfType,ci=ci,showPlot=FALSE);
+plts.RawData<-res$plots;
+```
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pS1);
+```
+Fig. `r fig`. Survey biomass time series components. Confidence intervals shown are `r ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pS2);
+```
+Fig. `r fig`. Recent (since `r recentYear`) survey biomass time series components. Confidence intervals shown are `r ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pS3);
+```
+Fig. `r fig`. Log10-scale survey biomass time series. Confidence intervals shown are `r ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pF1);
+```
+Fig. `r fig`. Fishery time series components.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pF2);
+```
+Fig. `r fig`. Recent (since `r recentYear`) fishery time series.
+
+##Smoothed survey data
+Inverse variance (IV) and a kalman filter/random effects model (REM) were used to smooth the mature male biomass time series from the survey data.
+```{r,echo=FALSE}
+srvData.IV <-surveyAveraging.InvVar(srvData,pdfType=pdfType,ci=ci,showPlot=FALSE);
+srvData.REM<-surveyAveraging.REM(srvData,pdfType=pdfType,ci=ci,showPlot=FALSE);
+idx<-srvData.REM$type=='REM';
+dfr<-rbind(srvData.IV,srvData.REM[idx,]);
+plts.AvgdData<-plotAvgdData(dfr,yr2=recentYear,showPlot=FALSE);
+```
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.AvgdData$arScl1);
+```
+Fig. `r fig`. Arithmetic-scale raw and smoothed survey mature male biomass time series. Confidence intervals shown are `r ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.AvgdData$arScl2);
+```
+Fig. `r fig`. Arithmetic-scale raw and smoothed survey mature male biomass time series, since `r recentYear`. Confidence intervals shown are `r ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.AvgdData$lnScl);
+```
+Fig. `r fig`. Log10-scale raw and smoothed survey mature male biomass time series. Confidence intervals shown are `r ci`% CIs, assuming `r pdfType` error distributions.
+
+Table `r tbl<-tbl+1; tbl`. Survey averaging results (using xtable).
+```{r, results='asis', echo=FALSE, message=FALSE}
+require(reshape2)
+mdfr<-melt(dfr,idvars=c('year','type'),measure.vars=c('value','lci','uci'));
+dfrp<-dcast(mdfr,year~type+variable,value.var='value')
+require(xtable)
+dfrp$year<-as.character(dfrp$year)
+xtbl.AvgSrvData<-xtable(dfrp)
+print(xtbl.AvgSrvData,type='latex',comment=FALSE,include.rownames=FALSE);
+```
+
+##Status Determination
+Pribilof Islands blue king crab falls into Tier 4 for status determination and OFL setting. For Tier 4 stocks, stock status is assessed with respect to a proxy for $B_{MSY}$ based on average MMB at mating, where the averaging is over some time span during which the stock is assumed to have been ???. For PIBKC, the Science and Statistical Committee (SSC) of the North Pacific Fishery Management Council (NPFMC) has determined the time span for averaging to be the years 1980-1984 and 1990-1997.
+
+###Status Determination using Inverse Variance survey averaging
+For Tier 4 stocks, $B_{MSY}$ is the average MMB at mating over some specified To estimate MMB at mating, the inverse variance-averaged time series of MMB at the time of the survey was projected forward to the time of mating, accounting for both natural and fishing mortality. The estimated time series of MMB at the time of the survey (the inverse-averaged time series), at the time of the fishery, and at the time of mating are shown in Fig. `r fig<-fig+1; fig`.
+```{r, echo=FALSE}
+    ##calculate MMB at mating time series
+    lstMMB<-calcMMBMating(fshData,
+                          srvData.IV,
+                          avgType="IV",
+                          M=M,
+                          t.sf=t.sf,
+                          t.fm=t.fm,
+                          hm.pot=hm.pot,
+                          hm.trl=hm.trl,
+                          pct.male=pct.male);
+    mmbSrvCurr<-lstMMB$mmbSrv[as.character(assYr)];
+```
+The estimate of current (`r assYr`) MMB at the time of the survey is `r mmbSrvCurr` thousand t.  
+
+```{r, echo=FALSE}
+    print(lstMMB$plots$MMB);
+```
+Fig. `r fig`. Estimated time series for MMB at the time of the survey (the inverse-averaged time series), at the time of the fishery, and at the time of mating.    
+
+```{r, echo=FALSE}
+    #calculate Bmsy by averaging MMB at mating over specified time intervals
+    Bmsy<-calcBmsy(lstMMB$mmbMat,years=yrsForBmsy);
+    if (verbose) cat("Bmsy:",Bmsy,'\n')
+````
+Averaging estimated MMB at mating over the period [1980-1984,1990-1997] yields $B_{MSY_{proxy}} = `r Bmsy`$ thousand t.  
+
+Whether or not the stock is in an overfished condition is determined by the ratio $r = B_{curr}/B_{MSY}$, where $B_{curr}$ is the "current" MMB at mating for the assessment year. If *r* < 0.5, then stock is overfished. The "current" MMB at mating for assessment year y is MMB on Feb. 15, y+1; it must be projected forward from the "current" survey MMB (calculated above), taking into account any natural mortality and *projected* fishing effects occurring prior to spawning.
+```{r, echo=FALSE}
+    #calculate 'theta', the average discard mortality exploitation rate
+    theta<-calcTheta(lstMMB,assYr=assYr,n=nYrsTheta)[2];
+    if (verbose) cat("theta:",theta,'\n')
+```
+$\theta = `r theta`$.  
+
+```{r, echo=FALSE}
+    #calculate OFL quantities
+    lstOFL.inputs<-list(mmbSrvCurr=mmbSrvCurr,
+                        Bmsy=Bmsy,
+                        theta=theta,
+                        M=M,
+                        gamma=gamma,
+                        alpha=alpha,
+                        beta=beta,
+                        t.sf=t.sf,
+                        t.fm=t.fm);
+    lstOFL<-calcOFL(mmbSrvCurr,
+                    Bmsy,
+                    theta,
+                    M=M,
+                    gamma=gamma,
+                    alpha=alpha,
+                    beta=beta,
+                    t.sf=t.sf,
+                    t.fm=t.fm);
+    if (verbose) cat('retOFL:',lstOFL$retOFL,"dscOFL:",lstOFL$dscOFL,"totOFL:",lstOFL$retOFL+lstOFL$dscOFL,'\n')
+    if (verbose) cat('Fofl:',lstOFL$Fofl,"prjMMB:",lstOFL$prjMMB,'\n')
+```

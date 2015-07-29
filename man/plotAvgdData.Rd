@@ -14,7 +14,12 @@ plotAvgdData(dfr, yr2 = 1990, showPlot = FALSE)
 \item{showPlot}{- flag (T/F) to show plots immediately}
 }
 \value{
-list with ggplot2 objects as elements arScl1, arScl2, lnScl
+list with ggplot2 objects as named elements
+\itemize{
+ \item arScl1 - arithmetic scale plot
+ \item arScl2 - arithmetic scale plot, sstarting at yr2
+ \item lnScl = log-scale plot
+}
 }
 \description{
 Function to plot averaged (and raw) data using output from one of the surveyAveraging functions.

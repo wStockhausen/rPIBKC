@@ -4,16 +4,16 @@
 \alias{calcMMBMating}
 \title{Calculate projected MMMB at mating.}
 \usage{
-calcMMBMating(avgSrvData, fshData, type = "averaged", M = 0.18,
-  t.sf = 3/12, t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8,
-  pct.male = 0.5, showPlot = FALSE)
+calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18, t.sf = 3/12,
+  t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8, pct.male = 0.5,
+  showPlot = FALSE)
 }
 \arguments{
-\item{avgSrvData}{- dataframe with MMB at time of survey}
-
 \item{fshData}{- dataframe with fishery data}
 
-\item{type}{- type of survey MMB to use ('averaged' or 'raw')}
+\item{avgSrvData}{- dataframe with MMB at time of survey}
+
+\item{avgType}{- type of survey MMB to use ('raw', 'IV' or 'REM')}
 
 \item{M}{- assumed rate of natural mortality}
 

@@ -6,7 +6,7 @@
 #'@param assYr - year of assessment
 #'@param srvData - survey data dataframe, path to csv file, or NULL
 #'@param fshData - fisheries data dataframe, path to csv file, or NULL
-#'@param avgTypeForMMB - flag indicating averaging type for survey data ('IV' or 'REM')
+#'@param avgTypeForMMB - flag indicating averaging type for survey data ('raw', 'IV' or 'REM')
 #'@param yrsForBmsy - years for Bmsy calculation
 #'@param nYrsSrvAvg - 
 #'@param nYrsTheta - 
@@ -28,9 +28,9 @@
 #'\itemize{
 #'  \item data - list with elements:
 #'  \itemize{
-#'    \item fshData=
-#'    \item srvData
-#'    \item avgSrvData
+#'    \item fshData - dataframe with fishery data
+#'    \item srvData - dataframe with 'raw' survey data
+#'    \item avgSrvData - dataframe with 'smoothed' survey data
 #'    \item plots.RawData - list of ggplot2 objects
 #'    \item plots.AvgdData - list of ggplot2 objects
 #'  }
@@ -136,9 +136,9 @@ doAssessment<-function(assYr=2014,
     plts.AvgdData<-plotAvgdData(dfr,yr2=recentYear,showPlot=showPlot);
 
     #calculate MMB at mating time series
-    lstMMB<-calcMMBMating(avgSrvData,
-                          fshData,
-                          type=srvTypeForMMB,
+    lstMMB<-calcMMBMating(fshData,
+                          avgSrvData,
+                          avgType=avgTypeForMMB,
                           M=M,
                           t.sf=t.sf,
                           t.fm=t.fm,

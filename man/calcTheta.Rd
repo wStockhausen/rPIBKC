@@ -15,8 +15,10 @@ calcTheta(mmbLst, assYr = 2014, n = 3)
 }
 \value{
 2-element vector with theta calculated as
-1. ration of averages
-2. average of ratios
+\enumerate{
+ \item ratio of averages
+ \item average of ratios
+}
 }
 \description{
 Function to calculate theta, the average exploitation rate on MMB

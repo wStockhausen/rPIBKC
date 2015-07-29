@@ -17,6 +17,9 @@ calcCIs(vals, cvs, pdfType = "lognormal", ci = 0.95, verbose = FALSE)
 
 \item{verbose}{- flag (T/F) to print intermediate output}
 }
+\value{
+list with vectors lci, uci as  named elements
+}
 \description{
 Function to compute confidence intervals.
 }

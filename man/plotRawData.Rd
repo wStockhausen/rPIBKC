@@ -21,9 +21,19 @@ plotRawData(srvData = NULL, fshData = NULL, yr2 = 1990,
 \item{showPlot}{- flag (T/F) to show plots immediately}
 }
 \value{
-list with srvData, fshData, and plots as elements. For survey data, abundance is in
-milllions and biomass is in 1000's t. For fishery data, catch biomass is in t. plots is a
-list with ggplot2 objects pS1, pS2, pS3, pF1, and pF2 as elements.
+list with named elements
+\itemize{
+ \item srvData - dataframe w/ abundance is in milllions and biomass is in 1000's t
+ \item fshData - dataframe w/ catch biomass is in t
+ \item plots - list with ggplot2 objects
+ \itemize{
+     \item pS1
+     \item pS2
+     \item pS3
+     \item pF1
+     \item pF2
+ }
+}
 }
 \description{
 Function to plot raw survey and fishery data.

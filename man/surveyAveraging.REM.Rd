@@ -28,7 +28,14 @@ surveyAveraging.REM(srvData, type = "biomass", sex = "male",
 \item{showPlot}{- flag (T/F) to plot results}
 }
 \value{
-dataframe with smoothed survey data
+dataframe with smoothed survey data, with columns
+\itemize{
+ \item year = survey year
+ \item type = 'IV'
+ \item value = averaged value
+ \item lci   = lower confidence interval
+ \item uci   = upper confidence interval
+}
 }
 \description{
 Function to smooth/interpolate survey data using a random effects(kalman filter) model (REM).

@@ -3,9 +3,9 @@
 #'
 #'@description Function to calculate MMMB at mating.
 #'
-#'@param avgSrvData - dataframe with MMB at time of survey
 #'@param fshData    - dataframe with fishery data
-#'@param type       - type of survey MMB to use ('averaged' or 'raw')
+#'@param avgSrvData - dataframe with MMB at time of survey
+#'@param avgType       - type of survey MMB to use ('raw', 'IV' or 'REM')
 #'@param M    - assumed rate of natural mortality
 #'@param t.sf - time from survey to fishery
 #'@param t.fm - time from fishery to mating
@@ -36,9 +36,9 @@
 #'
 #'@export
 #'
-calcMMBMating<-function(avgSrvData,
-                        fshData,
-                        type='averaged',
+calcMMBMating<-function(fshData,
+                        avgSrvData,
+                        avgType='IV',
                         M=0.18,
                         t.sf=3/12,
                         t.fm=4/12,
@@ -47,7 +47,7 @@ calcMMBMating<-function(avgSrvData,
                         pct.male=0.5,
                         showPlot=FALSE){
     #pull out survey MMB data
-    idx<-avgSrvData$type==type;
+    idx<-avgSrvData$type==avgType;
     mmbYrs<-avgSrvData$year[idx];
     mmbSrv<-avgSrvData$value[idx];
     names(mmbSrv)<-mmbYrs;
@@ -93,12 +93,14 @@ calcMMBMating<-function(avgSrvData,
         mmbMat[y] <-(mmbFsh[y]-fshTotM[y])*exp(-M*t.fm);
     }
 
-    dfr<-data.frame(year=mmbYrs,MMB=mmbMat);
+    dfr<-data.frame(year=mmbYrs,type='@ mating',MMB=mmbMat);
+    dfr<-rbind(dfr,data.frame(year=mmbYrs,type='@ survey',MMB=mmbSrv));
+    dfr<-rbind(dfr,data.frame(year=mmbYrs,type='@ fishery',MMB=mmbFsh));
     pd<-position_dodge(0.5);
-    p <- ggplot(aes_string(x='year',y='MMB'),data=dfr);
+    p <- ggplot(aes_string(x='year',y='MMB',colour='type'),data=dfr);
     p <- p + geom_point(position=pd,size=3);
     p <- p + geom_line( position=pd,size=1,alpha=1);
-    p <- p + ylab("MMB at mating (1000's t)");
+    p <- p + ylab("MMB (1000's t)");
     if (showPlot) print(p);
 
     return(list(mmbMat=mmbMat,mmbFsh=mmbFsh,mmbSrv=mmbSrv,

@@ -23,9 +23,11 @@ calcPrjMMB(mmbSrvCurr, Fm, theta, M = 0.18, t.sf = 3/12, t.fm = 4/12)
 }
 \value{
 list with elements:
-* mmb=mmbMatPrj
-* retM=prjRet,
-* dscM=prjDsc
+\itemize{
+ \item mmb=mmbMatPrj
+ \item retM=prjRet,
+ \item dscM=prjDsc
+}
 }
 \description{
 Function to calculate projected MMMB at mating.

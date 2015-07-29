@@ -28,7 +28,14 @@ surveyAveraging.InvVar(srvData, type = "biomass", sex = "male",
 \item{showPlot}{- flag (T/F) to plot results}
 }
 \value{
-dataframe with smoothed survey data
+dataframe with inverse-variance averaged survey data, with columns
+\itemize{
+ \item year = survey year
+ \item type = 'IV'
+ \item value = averaged value
+ \item lci   = lower confidence interval
+ \item uci   = upper confidence interval
+}
 }
 \description{
 Function to smooth survey data using inverse-variance averaging

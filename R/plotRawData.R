@@ -21,8 +21,8 @@
 #'      \item pS3
 #'      \item pF1
 #'      \item pF2
-#'  \}
-#'\}
+#'  }
+#'}
 #'
 #'@import ggplot2
 #'@importFrom wtsUtilities selectFile

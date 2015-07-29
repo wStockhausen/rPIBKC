@@ -12,7 +12,7 @@
 #'  \item arScl1 - arithmetic scale plot
 #'  \item arScl2 - arithmetic scale plot, sstarting at yr2
 #'  \item lnScl = log-scale plot
-#'\}
+#'}
 #'
 #'@import ggplot2
 #'

@@ -18,7 +18,7 @@ doAssessment(assYr = 2014, recentYr = 1990, srvData = NULL,
 
 \item{fshData}{- fisheries data dataframe, path to csv file, or NULL}
 
-\item{avgTypeForMMB}{- flag indicating averaging type for survey data ('IV' or 'REM')}
+\item{avgTypeForMMB}{- flag indicating averaging type for survey data ('raw', 'IV' or 'REM')}
 
 \item{yrsForBmsy}{- years for Bmsy calculation}
 
@@ -57,9 +57,9 @@ list consisting of elements
 \itemize{
  \item data - list with elements:
  \itemize{
-   \item fshData=
-   \item srvData
-   \item avgSrvData
+   \item fshData - dataframe with fishery data
+   \item srvData - dataframe with 'raw' survey data
+   \item avgSrvData - dataframe with 'smoothed' survey data
    \item plots.RawData - list of ggplot2 objects
    \item plots.AvgdData - list of ggplot2 objects
  }

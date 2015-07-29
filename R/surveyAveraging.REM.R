@@ -17,7 +17,14 @@
 #'@param verbose - flag (T/F) to print intermediate output
 #'@param showPlot - flag (T/F) to plot results 
 #'
-#'@return dataframe with smoothed survey data
+#'@return dataframe with smoothed survey data, with columns
+#'\itemize{
+#'  \item year = survey year
+#'  \item type = 'IV'
+#'  \item value = averaged value
+#'  \item lci   = lower confidence interval
+#'  \item uci   = upper confidence interval
+#'}
 #'
 #'@importFrom PBSmodelling readList
 #'

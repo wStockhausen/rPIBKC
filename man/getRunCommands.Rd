@@ -18,6 +18,9 @@ getRunCommands(os = "osx", path2model = getPath2REM(), pin = FALSE,
 
 \item{mcmc}{-}
 }
+\value{
+string with the run commands
+}
 \description{
 Function to generate a script to make an ADMB model run
 }
