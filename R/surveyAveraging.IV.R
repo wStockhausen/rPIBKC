@@ -1,7 +1,7 @@
 #'
-#'@title Smooth survey data using inverse-variance averaging
+#'@title Smooth survey data using inverse variance (IV) averaging
 #'
-#'@description Function to smooth survey data using inverse-variance averaging
+#'@description Function to smooth survey data using inverse variance averaging
 #'
 #'@param srvData - raw survey data dataframe
 #'@param type - data type ('abundance' or 'biomass') to average
@@ -24,7 +24,7 @@
 #'
 #'@export
 #'
-surveyAveraging.InvVar<-function(srvData,
+surveyAveraging.IV<-function(srvData,
                                  type='biomass',
                                  sex='male',
                                  category='mature',

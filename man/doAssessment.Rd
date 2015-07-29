@@ -18,7 +18,7 @@ doAssessment(assYr = 2014, recentYr = 1990, srvData = NULL,
 
 \item{fshData}{- fisheries data dataframe, path to csv file, or NULL}
 
-\item{avgTypeForMMB}{- flag indicating averaging type for survey data ('raw', 'IV' or 'REM')}
+\item{avgTypeForMMB}{- flag indicating averaging type for survey data ('raw', 'IV' or 'RE')}
 
 \item{yrsForBmsy}{- years for Bmsy calculation}
 

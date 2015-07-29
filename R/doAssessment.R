@@ -6,7 +6,7 @@
 #'@param assYr - year of assessment
 #'@param srvData - survey data dataframe, path to csv file, or NULL
 #'@param fshData - fisheries data dataframe, path to csv file, or NULL
-#'@param avgTypeForMMB - flag indicating averaging type for survey data ('raw', 'IV' or 'REM')
+#'@param avgTypeForMMB - flag indicating averaging type for survey data ('raw', 'IV' or 'RE')
 #'@param yrsForBmsy - years for Bmsy calculation
 #'@param nYrsSrvAvg - 
 #'@param nYrsTheta - 
@@ -108,17 +108,17 @@ doAssessment<-function(assYr=2014,
 
     #smooth survey data
     if (avgTypeForMMB=='IV'){
-        avgSrvData<-surveyAveraging.InvVar(srvData,
-                                           type='biomass',
-                                           sex='male',
-                                           category='mature',
-                                           n=nYrsSrvAvg,
-                                           pdfType=pdfType,
-                                           ci=ci,
-                                           verbose=verbose,
-                                           showPlot=FALSE);
-    } else if (avgTypeForMMB=='REM'){
-        avgSrvData<-surveyAveraging.REM(srvData,
+        avgSrvData<-surveyAveraging.IV(srvData,
+                                       type='biomass',
+                                       sex='male',
+                                       category='mature',
+                                       n=nYrsSrvAvg,
+                                       pdfType=pdfType,
+                                       ci=ci,
+                                       verbose=verbose,
+                                       showPlot=FALSE);
+    } else if (avgTypeForMMB=='RE'){
+        avgSrvData<-surveyAveraging.RE(srvData,
                                         type='biomass',
                                         sex='male',
                                         category='mature',

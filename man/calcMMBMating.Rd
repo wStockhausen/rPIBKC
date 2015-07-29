@@ -13,7 +13,7 @@ calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18, t.sf = 3/12,
 
 \item{avgSrvData}{- dataframe with MMB at time of survey}
 
-\item{avgType}{- type of survey MMB to use ('raw', 'IV' or 'REM')}
+\item{avgType}{- type of survey MMB to use ('raw', 'IV' or 'RE')}
 
 \item{M}{- assumed rate of natural mortality}
 

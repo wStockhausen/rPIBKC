@@ -5,7 +5,7 @@
 #'
 #'@param fshData    - dataframe with fishery data
 #'@param avgSrvData - dataframe with MMB at time of survey
-#'@param avgType       - type of survey MMB to use ('raw', 'IV' or 'REM')
+#'@param avgType       - type of survey MMB to use ('raw', 'IV' or 'RE')
 #'@param M    - assumed rate of natural mortality
 #'@param t.sf - time from survey to fishery
 #'@param t.fm - time from fishery to mating

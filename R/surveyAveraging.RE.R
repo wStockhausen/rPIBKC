@@ -1,7 +1,7 @@
 #'
-#'@title Smooth/interpolate survey data using a random effects(kalman filter) model (REM). 
+#'@title Smooth/interpolate survey data using a random effects/kalman filter model (RE). 
 #'
-#'@description Function to smooth/interpolate survey data using a random effects(kalman filter) model (REM).
+#'@description Function to smooth/interpolate survey data using a random effects/kalman filter model (RE).
 #'
 #'@details This function uses an ADMB random effects model (originally developed by Jim Ianelli 
 #'and subsequently modified by William Stockhausen) to smooth/interpolate survey data.
@@ -13,14 +13,14 @@
 #'@param category - category ('immature','mature', or 'legal') to average
 #'@param pdfType - distribution for CIs
 #'@param ci - confidence interval for CIs
-#'@param modelPath - path to ADMB REM used for survey averaging
+#'@param modelPath - path to ADMB RE model used for survey averaging
 #'@param verbose - flag (T/F) to print intermediate output
 #'@param showPlot - flag (T/F) to plot results 
 #'
 #'@return dataframe with smoothed survey data, with columns
 #'\itemize{
 #'  \item year = survey year
-#'  \item type = 'IV'
+#'  \item type = 'RE'
 #'  \item value = averaged value
 #'  \item lci   = lower confidence interval
 #'  \item uci   = upper confidence interval
@@ -28,14 +28,14 @@
 #'
 #'@importFrom PBSmodelling readList
 #'
-#'@details Smoothing is done using a Kalman filter/Random Effects Model
+#'@details Smoothing is done using a Kalman Filter/Random Effects model
 #'written in ADMB (C++) code. The single estimated parameter is the 
 #'ln-scale process error variance for annual changes in survey abundance/biomass
 #'modeled as a random walk process. The estimated time series is output.
 #'
 #'@export
 #'
-surveyAveraging.REM<-function(srvData,
+surveyAveraging.RE<-function(srvData,
                               type='biomass',
                               sex='male',
                               category='mature',
@@ -72,9 +72,9 @@ surveyAveraging.REM<-function(srvData,
     path<-file.path(currdir,'admb')
     if (!file.exists(path)) dir.create(path,recursive=TRUE)
     setwd(path);
-    if (verbose) cat("Running REM at '",path,"'.\n",sep='');
+    if (verbose) cat("Running RE at '",path,"'.\n",sep='');
 
-    #set up input data file to REM
+    #set up input data file to RE
     con<-file(paste(model,'dat',sep='.'),open='wt');
     writeLines(paste(min(sd$year),   "\t#min year"),con);
     writeLines(paste(max(sd$year),   "\t#max year"),con);
@@ -104,11 +104,11 @@ surveyAveraging.REM<-function(srvData,
     fn.par<-file.path(getwd(),"&&model.par");
     fn.par<-gsub('&&model',tolower(model),fn.par)
     
-    res.REM<-readList('rwout.rep')
+    res.RE<-readList('rwout.rep')
 
     #finish off the output
-    res<-calcCIs(res.REM$est,res.REM$cv,pdfType=pdfType,ci=ci,verbose=verbose);
-    dfr<-rbind(dfr,data.frame(year=res.REM$yrs,type='REM',value=res.REM$est,lci=res$lci,uci=res$uci));
+    res<-calcCIs(res.RE$est,res.RE$cv,pdfType=pdfType,ci=ci,verbose=verbose);
+    dfr<-rbind(dfr,data.frame(year=res.RE$yrs,type='RE',value=res.RE$est,lci=res$lci,uci=res$uci));
 
     if (showPlot) plotAvgdData(dfr);
     
