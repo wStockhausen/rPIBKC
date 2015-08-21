@@ -15,7 +15,7 @@
 #'  \item category
 #'  \item catch
 #'}
-#' Input units are converted to 1000's t (biomass) and millions (abundance).
+#' Input units are converted to t (biomass) and millions (abundance).
 #'
 #'@importFrom wtsUtilities selectFile
 #'
@@ -28,13 +28,19 @@ getFisheryData<-function(fn=NULL){
     }
     fshData<-read.csv(fn,stringsAsFactors=FALSE);
 
-    #convert fishery data to 1000's t's
+    #convert fishery data to t
+    ###millions lbs to t
     idx<-fshData$units=='million lbs';
-    fshData$catch[idx]<-fshData$catch[idx]/(2.204624);#catch in 1000's t
-    fshData$units[idx]<-"1000's t";
-    idx<-fshData$units=='t';
-    fshData$catch[idx]<-fshData$catch[idx]/1000;#catch in 1000's t
-    fshData$units[idx]<-"1000's t";
+    fshData$catch[idx]<-1000*fshData$catch[idx]/(2.204624);#catch in t
+    fshData$units[idx]<-"t";
+    ###1000's t to t
+    idx<-fshData$units=="1000's t";
+    fshData$catch[idx]<-1000*fshData$catch[idx];#catch in t
+    fshData$units[idx]<-"t";
+    ###kg to t
+    idx<-fshData$units=="kg";
+    fshData$catch[idx]<-fshData$catch[idx]/1000;#catch in t
+    fshData$units[idx]<-"t";
 
     return(fshData)
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcMMBMating.R
 \name{calcMMBMating}
 \alias{calcMMBMating}
-\title{Calculate projected MMMB at mating.}
+\title{Calculate projected MMB at mating.}
 \usage{
 calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18, t.sf = 3/12,
   t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8, pct.male = 0.5,
@@ -31,7 +31,7 @@ calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18, t.sf = 3/12,
 list with MMB at mating and other time series. Elements are:
 \itemize{
  \item mmbMat = MB at maturity
- \item mmbFsh = MMB at fishery time
+ \item mmbFsh = MMB just prior to the fishery
  \item mmbSrv = MMB at survey time
  \item retM = retained mortality
  \item dscM = list with elements:
@@ -48,9 +48,20 @@ list with MMB at mating and other time series. Elements are:
 }
 }
 \description{
-Function to calculate MMMB at mating.
+Function to calculate MMB at mating.
 }
 \details{
 
+
+annual estimates of MMB at mating are calculated using
+> \deqn{MMB_{mating} = (MMB_{survey} \cdot e^{-M \cdot t_{sf}}-M_F) \cdot e^{-M \cdot t_{fm}}}
+where
+\itemize{
+ \item \eqn{MMB_{survey}} is MMB at the time of the survey
+ \item \eqn{t_{sf}} is the fraction of the year from the survey to the (pulse) fishery
+ \item \eqn{t_{fm}} is the fraction of the year from the (pulse) fishery to mating
+ \item \eqn{M} is the rate of natural mortality
+ \item \eqn{M_F} is total fishing mortality (retained + discard mortality) on mature males
+}
 }
 

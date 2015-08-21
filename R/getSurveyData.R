@@ -15,7 +15,7 @@
 #'  \item value
 #'  \item cv
 #'}
-#' Input units are converted to 1000's t (biomass) and millions (abundance).
+#' Input units are converted to t (biomass) and ones (abundance).
 #'
 #'@importFrom wtsUtilities selectFile
 #'
@@ -28,13 +28,23 @@ getSurveyData<-function(fn=NULL){
     }
     srvData<-read.csv(fn,stringsAsFactors=FALSE);
 
-    #scale survvey data to 1000's t, abundance in millions
-    idx<-srvData$units=='t';
-    srvData$value[idx]<-srvData$value[idx]/1000;#biomass in 1000's t
-    srvData$units[idx]<-"1000's t";
-    idx<-srvData$units=='ones';
-    srvData$value[idx]<-srvData$value[idx]/1.0e6;#abundance in millions
-    srvData$units[idx]<-"millions";
+    #scale survvey data to biomass in t, abundance in ones
+    ###biomass in kg
+    idx<-srvData$units=="kg";
+    srvData$value[idx]<-srvData$value[idx]/1000;#biomass in t
+    srvData$units[idx]<-"t";
+    ###biomass in 1000's t
+    idx<-srvData$units=="1000's t";
+    srvData$value[idx]<-1000*srvData$value[idx];#biomass in t
+    srvData$units[idx]<-"t";
+    ###abundance in thousands
+    idx<-srvData$units=='thousands';
+    srvData$value[idx]<-1000*srvData$value[idx];#abundance in ones
+    srvData$units[idx]<-"ones";
+    ###abundance in millions
+    idx<-srvData$units=='millions';
+    srvData$value[idx]<-1.0e6*srvData$value[idx];#abundance in ones
+    srvData$units[idx]<-"ones";
 
     return(srvData);
 }

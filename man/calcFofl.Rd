@@ -2,26 +2,26 @@
 % Please edit documentation in R/calcFofl.R
 \name{calcFofl}
 \alias{calcFofl}
-\title{Calculate Fofl using the harvest control rule.}
+\title{Calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule.}
 \usage{
 calcFofl(mmb, Bmsy, maxFofl, alpha, beta)
 }
 \arguments{
-\item{mmb}{- MMB at mating}
+\item{mmb}{- MMB at mating (from calcMMBmating())}
 
-\item{Bmsy}{- Bmsy}
+\item{Bmsy}{- value for \eqn{B_{MSY}} (from clcBmsy())}
 
-\item{maxFofl}{- max allowed Fofl}
+\item{maxFofl}{- max allowed \eqn{F_{OFL} (= \gamma M)}}
 
-\item{alpha}{- x-intercept of sloping control line}
+\item{alpha}{- value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)}
 
-\item{beta}{- threshold mmb/Bmsy to allow a directed fishery}
+\item{beta}{- value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)}
 }
 \value{
-the value of Fofl given the mmb/Bmsy ratio, using the control rule.
+the value of \eqn{F_{OFL}} given the mmb/Bmsy ratio, using the Tier 4 control rule.
 }
 \description{
-Functio to calculate Fofl using the harvest control rule.
+Functio to calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule.
 }
 \details{
 

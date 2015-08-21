@@ -1,18 +1,23 @@
 #'
-#'@title Calculate theta, the average exploitation rate on MMB
+#'@title Calculate \eqn{\theta}, the average exploitation rate on MMB
 #'
-#'@description Function to calculate theta, the average exploitation rate on MMB
+#'@description Function to calculate \eqn{\theta}, the average exploitation rate on MMB
 #'
-#'@param mmbLst - output from calcMMBMating
+#'@param mmbLst - output from \code{\link{calcMMBMating}}
 #'@param assYr  - assesssment year
-#'@param n      - number of years to average
+#'@param n      - number of years to include in average
 #'
-#'@return 2-element vector with theta calculated as
+#'@return 2-element vector with \eqn{\theta} calculated as
 #'\enumerate{
-#'  \item ratio of averages
-#'  \item average of ratios
+#'  \item \eqn{\theta = \frac{\sum_y M_{F_{y}}}{\sum_y MMB_{{fishing}_{y}}}}        [ratio of averages]
+#'  \item \eqn{\theta = \frac{1}{N}\sum_y \frac{M_{F_{y}}}{{MMB}_{{fishing}_{y}})}} [average of ratios]
 #'}
-#'
+#'where
+#'\itemize{
+#'  \item \emph{N} = number of years over which to average
+#'  \item \eqn{M_{F_{y}}} = total fishing-related mortality on mature males in year \emph{y}
+#'  \item \eqn{{MMB}_{{fishing}_{y}}} = MMB just prior to the (pulse) fishery
+#'}
 #'@export
 #'
 calcTheta<-function(mmbLst,assYr=2014,n=3){

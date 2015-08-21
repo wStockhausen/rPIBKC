@@ -49,7 +49,7 @@ surveyAveraging.RE<-function(srvData,
     sd<-srvData[idx,];
 
     if(is.null(sd$lci)){
-        cis<-calcCIs(sd$value,sd$cv*sd$value,pdfType=pdfType,ci=ci);
+        cis<-calcCIs(sd$value,sd$cv,pdfType=pdfType,ci=ci);
         lci<-cis$lci;
         uci<-cis$uci;
     } else {

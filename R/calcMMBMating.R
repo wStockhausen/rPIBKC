@@ -1,11 +1,11 @@
 #'
-#'@title Calculate projected MMMB at mating.
+#'@title Calculate projected MMB at mating.
 #'
-#'@description Function to calculate MMMB at mating.
+#'@description Function to calculate MMB at mating.
 #'
 #'@param fshData    - dataframe with fishery data
 #'@param avgSrvData - dataframe with MMB at time of survey
-#'@param avgType       - type of survey MMB to use ('raw', 'IV' or 'RE')
+#'@param avgType    - type of survey MMB to use ('raw', 'IV' or 'RE')
 #'@param M    - assumed rate of natural mortality
 #'@param t.sf - time from survey to fishery
 #'@param t.fm - time from fishery to mating
@@ -13,10 +13,21 @@
 #'@param hm.trl - handling mortality rate for trawl fisheries
 #'@param pct.male - assumed male percentage
 #'
+#'@details annual estimates of MMB at mating are calculated using
+#'> \deqn{MMB_{mating} = (MMB_{survey} \cdot e^{-M \cdot t_{sf}}-M_F) \cdot e^{-M \cdot t_{fm}}}
+#'where
+#'\itemize{
+#'  \item \eqn{MMB_{survey}} is MMB at the time of the survey
+#'  \item \eqn{t_{sf}} is the fraction of the year from the survey to the (pulse) fishery
+#'  \item \eqn{t_{fm}} is the fraction of the year from the (pulse) fishery to mating
+#'  \item \eqn{M} is the rate of natural mortality
+#'  \item \eqn{M_F} is total fishing mortality (retained + discard mortality) on mature males
+#'}
+#'
 #'@return list with MMB at mating and other time series. Elements are:
 #'\itemize{
 #'  \item mmbMat = MB at maturity
-#'  \item mmbFsh = MMB at fishery time
+#'  \item mmbFsh = MMB just prior to the fishery
 #'  \item mmbSrv = MMB at survey time
 #'  \item retM = retained mortality
 #'  \item dscM = list with elements: 
@@ -100,7 +111,7 @@ calcMMBMating<-function(fshData,
     p <- ggplot(aes_string(x='year',y='MMB',colour='type'),data=dfr);
     p <- p + geom_point(position=pd,size=3);
     p <- p + geom_line( position=pd,size=1,alpha=1);
-    p <- p + ylab("MMB (1000's t)");
+    p <- p + ylab("MMB (t)");
     if (showPlot) print(p);
 
     return(list(mmbMat=mmbMat,mmbFsh=mmbFsh,mmbSrv=mmbSrv,

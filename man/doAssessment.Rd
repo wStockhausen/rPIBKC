@@ -4,9 +4,9 @@
 \alias{doAssessment}
 \title{Do assessment.}
 \usage{
-doAssessment(assYr = 2014, recentYr = 1990, srvData = NULL,
+doAssessment(assYr = 2014, recentYear = 1990, srvData = NULL,
   fshData = NULL, avgTypeForMMB = "IV", yrsForBmsy = c(1980:1984,
-  1990:1997), nYrsSrvAvg = 3, nYrsTheta = 3, M = 0.18, t.sf = 3/12,
+  1990:1997), nYrsSrvIV = 3, nYrsTheta = 3, M = 0.18, t.sf = 3/12,
   t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8, pct.male = 0.5, gamma = 1,
   alpha = 0.1, beta = 0.25, pdfType = "lognormal", ci = 0.95,
   verbose = FALSE, showPlot = FALSE)
@@ -14,19 +14,21 @@ doAssessment(assYr = 2014, recentYr = 1990, srvData = NULL,
 \arguments{
 \item{assYr}{- year of assessment}
 
+\item{recentYear}{- recent year to set time axis for some plots}
+
 \item{srvData}{- survey data dataframe, path to csv file, or NULL}
 
 \item{fshData}{- fisheries data dataframe, path to csv file, or NULL}
 
 \item{avgTypeForMMB}{- flag indicating averaging type for survey data ('raw', 'IV' or 'RE')}
 
-\item{yrsForBmsy}{- years for Bmsy calculation}
+\item{yrsForBmsy}{- years for \eqn{B_{MSY}} calculation}
 
-\item{nYrsSrvAvg}{-}
+\item{nYrsSrvIV}{- number of years to include in inverse variance averages}
 
-\item{nYrsTheta}{-}
+\item{nYrsTheta}{- number of years to average for \eqn{\theta} calculation}
 
-\item{M}{- natural mortality}
+\item{M}{- rate of natural mortality}
 
 \item{t.sf}{- time from survey to fishery}
 
@@ -38,11 +40,11 @@ doAssessment(assYr = 2014, recentYr = 1990, srvData = NULL,
 
 \item{pct.male}{- assumed male percentage}
 
-\item{gamma}{- multiplicative factor on M for maxFofl}
+\item{gamma}{- value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})}
 
-\item{alpha}{- x-intercept of sloping control line}
+\item{alpha}{- value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)}
 
-\item{beta}{- threshold mmb/Bmsy to allow a directed fishery}
+\item{beta}{- value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)}
 
 \item{pdfType}{- probability distribution for error bars}
 
@@ -53,7 +55,7 @@ doAssessment(assYr = 2014, recentYr = 1990, srvData = NULL,
 \item{showPlot}{- flag (T/F) to plot results}
 }
 \value{
-list consisting of elements
+list consisting of the following elements:
 \itemize{
  \item data - list with elements:
  \itemize{
@@ -63,51 +65,53 @@ list consisting of elements
    \item plots.RawData - list of ggplot2 objects
    \item plots.AvgdData - list of ggplot2 objects
  }
- \item lstMMB - list from calcMMBmating:
+ \item lstMMB - list from \code{\link{calcMMBmating}}:
  \itemize{
-   \item mmbMat = MB at maturity
-   \item mmbFsh = MMB at fishery time
-   \item mmbSrv = MMB at survey time
-   \item retM = retained mortality
+   \item mmbMat = MB at maturity (t)
+   \item mmbFsh = MMB at fishery time (t)
+   \item mmbSrv = MMB at survey time (t)
+   \item retM = retained mortality (t)
    \item dscM = list with elements:
    \itemize{
-     \item tot = total discard mortality
-     \item gft = groundfish trawl fisheries mortality
-     \item gfp = groundfish pot fisheries mortality
-     \item crb = crab fisheries discard mortality
+     \item tot = total discard mortality (t)
+     \item gft = groundfish trawl fisheries mortality (t)
+     \item gfp = groundfish pot fisheries mortality (t)
+     \item crb = crab fisheries discard mortality (t)
    }
  \item plots = list with elements:
    \itemize{
      \item MMB = MMB time series ggplot2 plot object
    }
  }
- \item inputs.OFL - list with elements
+ \item inputs.OFL - list of inputs to \code{\link{calcOFL}}, with elements:
  \itemize{
-   \item mmbSrvCurr
-   \item Bmsy
-   \item theta
-   \item M
-   \item gamma
-   \item alpha
-   \item beta
-   \item t.sf
-   \item t.fm
+   \item mmbSrvCurr - "current" value of MMB at survey time
+   \item Bmsy - \eqn{B_{MSY}} from \code{\link{calcBmsy}}
+   \item theta - \eqn{\theta}, from \code{\link{calcTheta}}
+   \item M - rate of natural mortality, \eqn{M}
+   \item gamma - value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})
+   \item alpha - value for the Tier 4 \eqn{\alpha} constant
+   \item beta - value for the Tier 4 \eqn{\beta} constant
+   \item t.sf - time from survey to fishery (as fraction of year)
+   \item t.fm - time from fishery to mating (as fraction of year)
  }
- \item lstOFL - list from calcOFL
+ \item lstOFL - list result from \code{\link{calcOFL}}, with elements:
  \itemize{
-   \item maxFofl = max allowed Fofl (=gamma*M)
-   \item Bmsy   = Bmsy
-   \item Fofl   = Fofl
-   \item prjMMB = projected MMB
-   \item retOFL = retained portion of total OFL
-   \item dscOFL = discard portion of total OFL
+   \item maxFofl = max allowed \eqn{F_{OFL_{max}} (= \gamma \cdot M)})
+   \item Bmsy   = \eqn{B_{MSY}} (in t)
+   \item Fofl   = \eqn{F_{OFL}} (in t)
+   \item prjMMB = projected MMB (in t)
+   \item retOFL = retained portion of total OFL (in t)
+   \item dscOFL = discard portion of total OFL (in t)
  }
 }
 }
 \description{
-Function to do the assessment
+Function to do the assessment.
 }
 \details{
 
+
+Output units are in t for biomass, ones for abundance.
 }
 

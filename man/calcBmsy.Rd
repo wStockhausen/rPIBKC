@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcBmsy.R
 \name{calcBmsy}
 \alias{calcBmsy}
-\title{Calculate Bmsy by averaging over specified time intervals}
+\title{Calculate \eqn{B_{MSY}} by averaging over specified time interval.}
 \usage{
 calcBmsy(mmb, years = c(1980:1984, 1990:1997))
 }
@@ -12,10 +12,10 @@ calcBmsy(mmb, years = c(1980:1984, 1990:1997))
 \item{years}{- years to incude in average}
 }
 \value{
-Bmsy (in 1000's t)
+\eqn{B_{MSY}} (in t)
 }
 \description{
-Function to calculate Bmsy by averaging over specified time intervals
+Function to calculate \eqn{B_{MSY}} by averaging over specified time interval.
 }
 \details{
 

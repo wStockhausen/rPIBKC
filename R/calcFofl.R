@@ -1,15 +1,15 @@
 #'
-#'@title Calculate Fofl using the harvest control rule.
+#'@title Calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule.
 #'
-#'@description Functio to calculate Fofl using the harvest control rule.
+#'@description Functio to calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule.
 #'
-#'@param mmb - MMB at mating
-#'@param Bmsy - Bmsy
-#'@param maxFofl - max allowed Fofl
-#'@param alpha - x-intercept of sloping control line
-#'@param beta - threshold mmb/Bmsy to allow a directed fishery
+#'@param mmb - MMB at mating (from calcMMBmating())
+#'@param Bmsy - value for \eqn{B_{MSY}} (from clcBmsy())
+#'@param maxFofl - max allowed \eqn{F_{OFL} (= \gamma M)}
+#'@param alpha - value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)
+#'@param beta - value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)
 #'
-#'@return the value of Fofl given the mmb/Bmsy ratio, using the control rule.
+#'@return the value of \eqn{F_{OFL}} given the mmb/Bmsy ratio, using the Tier 4 control rule.
 #'
 #'@export
 #'

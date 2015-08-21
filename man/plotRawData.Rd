@@ -5,7 +5,7 @@
 \title{Plot raw survey and fishery data.}
 \usage{
 plotRawData(srvData = NULL, fshData = NULL, yr2 = 1990,
-  pdfType = "lognormal", ci = 0.95, showPlot = FALSE)
+  pdfType = "lognormal", ci = 0.95, verbose = FALSE, showPlot = FALSE)
 }
 \arguments{
 \item{srvData}{- survey data dataframe, path to csv file, or NULL}
@@ -18,12 +18,14 @@ plotRawData(srvData = NULL, fshData = NULL, yr2 = 1990,
 
 \item{ci}{- confidence interval for error bar plots}
 
+\item{verbose}{- flag (T/F) to print diagnostics, etc}
+
 \item{showPlot}{- flag (T/F) to show plots immediately}
 }
 \value{
 list with named elements
 \itemize{
- \item srvData - dataframe w/ abundance is in milllions and biomass is in 1000's t
+ \item srvData - dataframe w/ abundance is in ones and biomass is in t
  \item fshData - dataframe w/ catch biomass is in t
  \item plots - list with ggplot2 objects
  \itemize{
@@ -40,5 +42,7 @@ Function to plot raw survey and fishery data.
 }
 \details{
 
+
+Biomass units are assumed to be in t, abundance units in ones.
 }
 

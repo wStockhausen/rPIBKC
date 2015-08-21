@@ -20,7 +20,7 @@ dataframe with columns:
  \item value
  \item cv
 }
-Input units are converted to 1000's t (biomass) and millions (abundance).
+Input units are converted to t (biomass) and ones (abundance).
 }
 \description{
 Function to read the survey data from a csv file and return it as a dataframe.

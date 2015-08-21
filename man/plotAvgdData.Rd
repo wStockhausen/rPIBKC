@@ -4,12 +4,17 @@
 \alias{plotAvgdData}
 \title{Plot averaged data.}
 \usage{
-plotAvgdData(dfr, yr2 = 1990, showPlot = FALSE)
+plotAvgdData(dfr, yr2 = 1990, maxY = NULL, verbose = FALSE,
+  showPlot = FALSE)
 }
 \arguments{
 \item{dfr}{- dataframe output from one of the surveyAveraging functions}
 
-\item{yr2}{- starting year for 2nd arithmetic scale plot}
+\item{yr2}{- starting year for 2nd arithmetic-scale plot}
+
+\item{maxY}{- optional max scale for arithmetic-scale y axes}
+
+\item{verbose}{- flag (T/F) to print intermediate output}
 
 \item{showPlot}{- flag (T/F) to show plots immediately}
 }
@@ -26,5 +31,7 @@ Function to plot averaged (and raw) data using output from one of the surveyAver
 }
 \details{
 
+
+Biomass units are assumed to be in t, abundance units in ones.
 }
 

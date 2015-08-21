@@ -1,0 +1,411 @@
+---
+title: "Appendix A: PIBKC Status Determination and OFL Setting"
+author: "William Stockhausen"
+date: "August 12, 2015"
+output: pdf_document
+---
+
+```{r,echo=FALSE,results='hide'}
+##set appendix letter
+app="A";
+##set knitr options for subsequent chunks
+knitr::opts_chunk$set(echo=FALSE, error=FALSE, message=FALSE, warning=FALSE, concordance=TRUE, fig.width=7, fig.height=4, dpi=300)
+```
+
+```{r}
+assYr=2014;      ##set assessment year
+
+##load required packages
+require(rPIBKC);
+require(wtsUtilities);
+require(reshape2);
+require(xtable);
+require(tables);
+
+##set caption numbering
+fig<-0;#figures
+tbl<-0;#tables
+
+## set values for input variables
+recentYear=1990;  ##"recent"" year for time series plots
+fnFsh='./test/FisheryData.csv';    ##file path for getFisheryData
+fnSrv='./test/SurveyData.csv';     ##file path for getSurveyData
+fnRE='./test/pibkcsurveyaveraging';##file path to admb RE model
+yrsForBmsy=c(1980:1984,1990:1997); ##time frame for calculating Bmsy
+nYrsSrvIV=3;##window size (number of years) for inverse-variance survey averaging
+nYrsTheta=3;##number of years to average for theta calculation
+M=0.18;
+t.sf=3/12;
+t.fm=4/12;
+hm.pot=0.5;
+hm.trl=0.8;
+pct.male=0.5;
+gamma=1.0;
+alpha=0.1;
+beta=0.25;
+pdfType='lognormal';
+ci=0.80;
+verbose=TRUE;
+showPlot=FALSE;
+```
+
+# Introduction
+This is an appendix to the `r assYr` stock assessment chapter for the Pribilof Islands blue king crab stock (PIBKC). It presents results for current status determination (is overfishing occurring?, is the stock overfished?) for the current year and the overfishing limit (OFL) for the upcoming year using the rPIBKC R package developed by the assessment author. The rPIBKC package (source code and R package) is available under source control at <https://github.com/wStockhausen/rPIBKC.git>. 
+
+This appendix is the result of processing an R Markdown document to create a PDF document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents that can encapsulate R code. Following changes to the fishery and/or survey data used for this assessment, the R Markdown document can be re-evaluated to produce an updated version of this appendix using one mouse click. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+##Status Determination and OFL calculations
+```{r calcOverfishing}
+##set OFL (in t) for the year prior to the assessment
+prvOFL = 1.16;
+##set catch (in t) for the year prior to the assessment
+prvRetCatch = 0.0;
+prvDscCatch.Crab = 0.0;
+prvDscCatch.GF.pot = 0.03;
+prvDscCatch.GF.trl = 0.0;
+##set handling mortality rates
+hm.pot=0.5;
+hm.trl=0.8;
+
+##calculate total catch mortality
+prvTotCatchMort <- prvRetCatch+hm.pot*(prvDscCatch.Crab+prvDscCatch.GF.pot)+hm.trl*prvDscCatch.GF.trl;
+##evaluate overfishing
+ovrFsh <- prvTotCatchMort > prvOFL;
+ovrFshTxt <- paste(ifelse(ovrFsh,'overfishing occurred in','overfishing did not occur in'),fisheryYear(assYr-1));
+```
+For all crab stocks managed by the NPFMC, overfishing is evaluated by comparing the previous year's catch mortality (retained + discard mortality) to the previous year's OFL: if the former is greater than the latter, then overfishing is occurring. Overfished status is assessed with respect to $B_{MSY}$, i.e. spawning stock biomass fished at maximum sustainable yield, such that the stock is overfished if $B/B_{MSY} < 0.5$, where $B$ is "current"" spawning stock biomass. The overfishing limit (OFL) for the subsequent year is based on  $B/B_{MSY}$ and an "$F_{OFL}$" harvest control rule, where $F_{OFL}$ is the fishing mortality rate that yields the OFL.
+
+PrIBKC falls into Tier 4 for status determination and OFL setting. For Tier 4 stocks, it is not possible to determine $B_{MSY}$ directly. Instead, average mature male biomass (MMB) at mating is used as a proxy for $B_{MSY}$, where the averaging is over some time period assumed to be representative of the stock being fished at an average rate near $F_{MSY}$ and is thus fluctuating around $B_{MSY}$. For PIBKC, the NPFMC's Science and Statistical Committee (SSC) has endorsed using the disjoint time periods [1980-84, 1990-97] to calculate $B_{MSY_{proxy}}$ for Pribilof Islands blue king crab to avoid time periods of low abundance possibly caused by high fishing pressure. Alternative time periods  (e.g., 1975 to 1979) have also been considered but rejected. Once $B_{MSY_{proxy}}$ has been calculated, overfished status is then determined by the ratio $B/B_{MSY_{proxy}}$: the stock is overfished if the ratio is less than 0.5, where $B$ is taken as "current" MMB-at-mating.
+
+##MMB
+In order to determine overfished status for PIBKC, one needs to determine "current" $B$ and $B_{MSY_{proxy}}$, both of which are based on MMB.    
+
+###Survey MMB
+MMB at the time of the annual NMFS trawl survey is calculated from annual survey data using:
+$${MMB}_{s} = \sum_z w_z \cdot P_z \cdot n_z$$
+where $w_z$ is weight at size $z$ (CL), $P_z$ is the probability of maturity at size $z$, and $n_z$ is survey-estimated male abundance at size $z$.   
+
+###MMB-at-mating
+MMB-at-mating (${MMB}_m$) is calculated from survey MMB (${MMB}_s$) by accounting for natural and fishing mortality from the time of the survey to mating. For a year $y$ prior to the assessment year, ${MMB}_{m_y}$ is given by    
+
+1. ${MMB}_{f_y} = {MMB}_{s_y} \cdot e^{-M \cdot t_{sf}}$
+2. ${MMB}_{m_y} = \biggl[{MMB}_{f_y}-RM_y-DM_y\biggr] \cdot e^{-M \cdot t_{fm}}$    
+
+where ${MMB}_{f_y}$ is the MMB in year $y$ just prior to the fishery, $M$ is natural mortality, $RM$ is retained mortality on MMB in the directed fishery, $DM$ is discard mortality on MMB in all fisheries, $t_{sf}$ is the time between the survey and the fishery, and $t_{fm}$ is the time between the fishery and mating.
+
+For the assessment year, the fishery has not occurred so $RM$ and $DM$ are unknown. The amount of fishing mortality presumably depends on the (as yet-to-be-determined) overfishing limit, so an iterative procedure is used to estimate MMB-at-mating for the fishery year. This procedure involves:    
+
+1. "guess" a value for $F_{OFL}$, the directed fishing mortality rate that yields OFL ($F_{OFL_{max}} = \gamma \cdot M$ is used) 
+2. determine the OFL corresponding to fishing at $F_{OFL} using the following equations:$
+    + $MMB_f = MMB_s \cdot e^{-M \cdot t_{sf}}$
+    + $RM_{OFL} = \biggl(1-e^{-F_{OFL}}\biggr) \cdot MMB_s \cdot e^{-M \cdot t_{sf}}$
+    + $DM_{OFL} = \theta \cdot MMB_f$
+    + $OFL = RM_{OFL} + DM_{OFL}$
+3. project MMB-at-mating from the "current" survey MMB and the OFL
+4. use the harvest control rule to determine the $F_{OFL}$ corresponding to the projected MMB-at-mating
+5. update the "guess" in 1. for the result in 4.
+6. repeat steps 2-5 until the process has converged, yielding self-consistent values for $F_{OFL}$ and MMB-at-mating    
+
+Note that this procedure determines the OFL for the assessment year as well as the current MMB-at-mating. Also note that, while the retained mortality $RM_{OFL}$ is based on the $F_{OFL}$, the discard mortality $DM_{OFL}$ is assumed to be proportional to the MMB at the time of the fishery, with proportionality constant $\theta$. The proportionality constant $\theta$ is determined by the average ratio of discard mortality on MMB ($DM_{MMB}$) to MMB at the time of the fishery ($MMB_{f_{y}}$) over a recent time interval:
+
+$$\theta = \frac{1}{N}\sum_y \frac{DM_{MMB_{y}}}{MMB_{f_{y}}}$$
+
+where the sum is over the last N years.
+
+#Data  
+```{r}
+##select fishery data file
+##fnF<-selectFile(ext="csv",caption="Select csv file with PIBKC fishery data")
+fshData<-getFisheryData(fnFsh);
+##select survey data file
+##fnS<-selectFile(ext="csv",caption="Select csv file with PIBKC survey data")
+srvData<-getSurveyData(fnSrv);
+```
+Data from the following files were used in this assessment:
+
+* fishery data: `r fnFsh`
+* survey data : `r fnSrv`
+
+```{r}
+res<-plotRawData(srvData,fshData,yr2=recentYear,pdfType=pdfType,ci=ci,verbose=FALSE,showPlot=FALSE);
+plts.RawData<-res$plots;
+```
+Fisheries data used in this assessment, for both directed and bycatch fisheries, are presented in Table `r tbl+1` and Fig.s `r paste(fig+1,fig+2,sep='-')`.
+
+```{r,fig.cap="Time series components of the directed and bycatch fisheries."}
+fig<-fig+1;
+print(plts.RawData$pF1);
+```
+<!--Fig. `r fig`. Time series components of the directed and bycatch fisheries.-->
+
+```{r}
+fig<-fig+1;
+print(plts.RawData$pF2);
+```
+Fig. `r paste("A.",fig,sep='')`. Recent (since `r recentYear`) time series for the directed and bycatch fisheries.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pS1);
+```
+Fig. `r paste("A.",fig,sep='')`. Survey biomass time series components. Confidence intervals shown are `r 100*ci`% CIs, assuming `r pdfType` error distributions.  
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pS2);
+```
+Fig. `r paste("A.",fig,sep='')`. Recent (since `r recentYear`) survey biomass time series components. Confidence intervals shown are `r 100*ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r,echo=FALSE}
+fig<-fig+1;
+print(plts.RawData$pS3);
+```
+Fig. `r paste("A.",fig,sep='')`. Log10-scale survey biomass time series. Confidence intervals shown are `r 100*ci`% CIs, assuming `r pdfType` error distributions.
+
+##Survey smoothing
+For PIBKC, the variances associated with annual survey estimates of MMB are so large that, prior to estiamting "current" MMB-at-mating, the survey MMB time series is first smoothed in some fashion to reduce overall variability.    
+
+###Inverse-variance averaging
+In recent assessments, inverse-variance (IV) averaging using a centered, 3-year window has been used to smooth the survey MMB time series using:
+$$<MMB_s>_y = \frac{\displaystyle{\biggl[\sum_{-1 \le i \le 1} w_{y+i} \cdot MMB_{s_{y+i}}\biggr]}}{\displaystyle{\sum_{-1 \le i \le 1} w_{y+i}}}$$    
+where $w_y = \frac{1}{\sigma_{s_y}^2}$ and $\sigma_{s_y}^2$ is the variance associated with $MMB_{s_y}$. One should note, however, that it is not possible to use a centered, 3-year averaging window to obtain a smoothed value for the "current" survey MMB because the survey subsequent to the assessment year has not been conducted yet. Instead, a non-centered 2-year window is used to obtain a smoothed estimate of "current' survey MMB.
+
+###Random effects/Kalman filter smoothing
+As an alternative to IV averaging, I implemented a random effects/kalman filter (RE) model in ADMB, based on code developed by Jim Ianelli (NOAA/NMFS/AFSC). This is a statistical approach which models annual log-scale changes in "true" survey MMB as a random walk process using
+$$<ln(MMB_s)>_y = <ln(MMB_s)>_{y-1} + \epsilon_y \text{, where } \epsilon_y \sim N(0,\phi^2)$$
+as the state equation and
+$$ln(MMB_{s_y}) = <ln(MMB_s)>_y + \eta_y \text{,  where } \eta_y \sim N(0,\sigma_{s_y}^2)$$
+as the observation equation, where $<ln(MMB_s)>_y$ is the estimated "true" log-scale survey MMB in year $y$, $\epsilon_y$ represents normally-distributed process error in year $y$ with standard deviation $\phi$, $MMB_{s_y}$ is the observed survey MMB in year $y$, $\eta_y$ represents normally-distributed ln-scale observation error, and $\sigma_{s_y}$ is the log-scale survey MMB standard deviation in year $y$. The $MMB_{s}$'s and $\sigma_{s}$'s are observed quantities, the $<ln(MMB_s)>$'s and $\phi$ are estimated parameters, and the $\epsilon$'s are random effects (essentially nuisance parameters) that are integrated out in the solution.
+
+Parameter estimates are obtained by minimizing the objective function
+$$\Lambda = \sum_y \biggl[ln(2\pi\phi) + \biggl(\frac{<ln(MMB_s)>_y-<ln(MMB_s)>_{y-1}}{\phi}\biggr)^2\biggr] + \sum_y \biggl(\frac{ln(MMB_{s_y})-<ln(MMB_s)>_y}{\sigma_{s_y}}\biggr)^2$$
+
+###Averaging Results
+For comparison, the raw, IV-averaged, and RE-smoothed survey MMB time series are shown in Fig.s A.6-A.8 on both arithmetic and natural log scales. 
+```{r}
+srvData.IV<-surveyAveraging.IV(srvData,n=nYrsSrvIV,
+                               type='biomass',sex='male',category='mature',
+                               pdfType=pdfType,ci=ci,verbose=FALSE,showPlot=FALSE);
+srvData.RE<-surveyAveraging.RE(srvData,
+                               modelPath=fnRE,
+                               type='biomass',sex='male',category='mature',
+                               pdfType=pdfType,ci=ci,verbose=FALSE,showPlot=FALSE);
+idx<-srvData.RE$type=='RE';
+srvData.Avgd<-rbind(srvData.IV,srvData.RE[idx,]);
+plts.AvgdData<-plotAvgdData(srvData.Avgd,yr2=recentYear,maxY=40,verbose=FALSE,showPlot=FALSE);
+```
+
+```{r}
+fig<-fig+1;
+print(plts.AvgdData$arScl1);
+```
+Fig. `r paste("A.",fig,sep='')`. Arithmetic-scale raw and smoothed survey MMB time series. Confidence intervals shown are `r 100*ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r}
+fig<-fig+1;
+print(plts.AvgdData$arScl2);
+```
+Fig. `r fig`. Arithmetic-scale raw and smoothed survey MMB time series, since `r recentYear`. Confidence intervals shown are `r 100*ci`% CIs, assuming `r pdfType` error distributions.
+
+```{r}
+fig<-fig+1;
+print(plts.AvgdData$lnScl);
+```
+Fig. `r fig`. Log-scale raw and smoothed survey MMB time series. Confidence intervals shown are `r 100*ci`% CIs, assuming `r pdfType` error distributions.
+
+#Status determination and OFL calculations
+
+##Overfishing status
+For PIBKC, the catch in `r fisheryYear(assYr-1)` was `r prvTotCatchMort` t while the OFL was `r prvOFL` t. Thus, `r ovrFshTxt`.
+
+##OFL calculations and overfished status
+###MMB-at-mating
+For comparison, I calculated time series of MMB-at-mating using the raw (unsmoothed) survey MMB time series, the IV-averaged survey MMB time series, and the RE-smoothed survey MMB time series.
+```{r calcMMB}
+    ##calculate MMB at mating time series using the unsmoothed survey MMB
+    lstMMB.US<-calcMMBMating(fshData,
+                              srvData.Avgd,
+                              avgType="raw",
+                              M=M,
+                              t.sf=t.sf,
+                              t.fm=t.fm,
+                              hm.pot=hm.pot,
+                              hm.trl=hm.trl,
+                              pct.male=pct.male);
+    mmbSrvCurr.US<-lstMMB.US$mmbSrv[as.character(assYr)];
+    ##calculate MMB at mating time series using the IV-averaged survey MMB
+    lstMMB.IV<-calcMMBMating(fshData,
+                              srvData.Avgd,
+                              avgType="IV",
+                              M=M,
+                              t.sf=t.sf,
+                              t.fm=t.fm,
+                              hm.pot=hm.pot,
+                              hm.trl=hm.trl,
+                              pct.male=pct.male);
+    mmbSrvCurr.IV<-lstMMB.IV$mmbSrv[as.character(assYr)];
+    ##calculate MMB at mating time series using the RE-smoothed survey MMB
+    lstMMB.RE<-calcMMBMating(fshData,
+                              srvData.Avgd,
+                              avgType="RE",
+                              M=M,
+                              t.sf=t.sf,
+                              t.fm=t.fm,
+                              hm.pot=hm.pot,
+                              hm.trl=hm.trl,
+                              pct.male=pct.male);
+    mmbSrvCurr.RE<-lstMMB.RE$mmbSrv[as.character(assYr)];
+```
+
+```{r plotMMB_Raw}
+    print(lstMMB.US$plots$MMB);
+```
+Fig. `r fig`. Estimated time series for MMB at the time of the survey (no smoothing), at the time of the fishery, and at the time of mating. 
+
+```{r plotMMB_IV}
+    print(lstMMB.IV$plots$MMB);
+```
+Fig. `r fig`. Estimated time series for MMB using IV method at the time of the survey (the inverse-averaged time series), at the time of the fishery, and at the time of mating. 
+
+```{r plot_MMB_RE}
+    print(lstMMB.RE$plots$MMB);
+```
+Fig. `r fig`. Estimated time series for MMB using the RE method at the time of the survey (the random effects time series), at the time of the fishery, and at the time of mating.    
+```{r Bmsy_calcs}
+    ##calculate Bmsy by averaging the RAW MMB at mating over specified time intervals
+    Bmsy.US <-calcBmsy(lstMMB.US$mmbMat,years=yrsForBmsy);
+    Bmsy.IV <-calcBmsy(lstMMB.IV$mmbMat, years=yrsForBmsy);
+    Bmsy.RE <-calcBmsy(lstMMB.RE$mmbMat, years=yrsForBmsy);
+````
+
+Values for $B_{MSY_{proxy}}$, obtained by averaging estimated MMB-at-mating over the period [1980-1984,1990-1997], as well as the estimated current (`r assYr`) MMB at the time of the survey from the raw survey data, the IV-averaged results, and the RE-smoothed results, are:
+
+Type | Current survey MMB  |$B_{MSY_{proxy}}$
+     |  (1000's t)         |  (1000's t)     
+-----|---------------------|-----------------
+raw  | $`r mmbSrvCurr.US`$ |$`r Bmsy.US`$    
+IV   | $`r mmbSrvCurr.IV`$ |$`r Bmsy.IV`$    
+RE   | $`r mmbSrvCurr.RE`$ |$`r Bmsy.RE`$    
+
+The values above for $B_{MSY_{proxy}}$ using the IV and RE methods are shown for illustration only. The $B_{MSY_{proxy}}$ used to determine overfished status and calculate the OFL is based on averaging the MMB-at-mating calculated from the raw survey MMB (i.e., $`r 1000*Bmsy.US`$ t).
+
+```{r theta_calcs}
+    ##calculate 'theta', the average discard mortality exploitation rate
+    theta.US<-calcTheta(lstMMB.US,assYr=assYr,n=nYrsTheta)[2];
+    theta.IV<-calcTheta(lstMMB.IV,assYr=assYr,n=nYrsTheta)[2];
+    theta.RE<-calcTheta(lstMMB.RE,assYr=assYr,n=nYrsTheta)[2];
+    if (verbose) cat("theta[IV]:",theta.IV,'\n')
+    if (verbose) cat("theta[RE]:",theta.RE,'\n')
+```
+Values for $\theta$, used in the projected MMB calculations, based on averaging the previous 3 yearsfrom the IV and RE methods are:
+
+Type | $\theta$
+-----|-----------------
+IV   | $`r theta.IV`$ 
+RE   | $`r theta.RE`$ 
+
+```{r OFL_calcs}
+    ##calculate OFL quantities
+    ##IV approach
+    lstOFL.inputs.IV<-list(mmbSrvCurr=mmbSrvCurr.IV,
+                           Bmsy=Bmsy.US,
+                           theta=theta.IV,
+                           M=M,
+                           gamma=gamma,
+                           alpha=alpha,
+                           beta=beta,
+                           t.sf=t.sf,
+                           t.fm=t.fm);
+    lstOFL.IV<-calcOFL(mmbSrvCurr.IV,
+                        Bmsy.US,
+                        theta.IV,
+                        M=M,
+                        gamma=gamma,
+                        alpha=alpha,
+                        beta=beta,
+                        t.sf=t.sf,
+                        t.fm=t.fm);
+    if (verbose) cat('[IV] retOFL:',lstOFL.IV$retOFL,"dscOFL:",lstOFL.IV$dscOFL,"OFL:",lstOFL.IV$OFL,'\n')
+    if (verbose) cat('[IV] Fofl  :',lstOFL.IV$Fofl,  "prjMMB:",lstOFL.IV$prjMMB,'\n')
+
+    ##RE approach
+    lstOFL.inputs.RE<-list(mmbSrvCurr=mmbSrvCurr.RE,
+                           Bmsy=Bmsy.US,
+                           theta=theta.RE,
+                           M=M,
+                           gamma=gamma,
+                           alpha=alpha,
+                           beta=beta,
+                           t.sf=t.sf,
+                           t.fm=t.fm);
+    lstOFL.RE<-calcOFL(mmbSrvCurr.RE,
+                        Bmsy.US,
+                        theta.RE,
+                        M=M,
+                        gamma=gamma,
+                        alpha=alpha,
+                        beta=beta,
+                        t.sf=t.sf,
+                        t.fm=t.fm);
+    if (verbose) cat('[RE] retOFL:',lstOFL.RE$retOFL,"dscOFL:",lstOFL.RE$dscOFL,"OFL:",lstOFL.RE$OFL,'\n')
+    if (verbose) cat('[RE] Fofl  :',lstOFL.RE$Fofl,  "prjMMB:",lstOFL.RE$prjMMB,'\n')
+    
+    tbl1<-data.frame(type='IV',lstOFL.IV);
+    tbl1<-rbind(tbl1,data.frame(type='RE',lstOFL.RE))
+    print(tbl1,row.names=FALSE)
+```
+```{r xtable_with_caption, results='asis'}
+    xtbl<-xtable(tbl1,caption='An xtable w/ a caption')
+    print(xtbl,type='latex',include.rownames=FALSE,caption.placement='top',floating=FALSE,comments=FALSE)
+```
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lrrrr}   
+    \hline 
+    quantity & units & Raw  & IV & RE \\
+    \hline
+    Projected MMB & 1000s t     & missing1 & $`r lstOFL.IV["prjMMB"]`$ & $`r lstOFL.RE["prjMMB"]`$ \\
+    $B_{MSY}$     & 1000s t     & missing2 & $`r lstOFL.IV["Bmsy"]`$   & $`r lstOFL.RE["Bmsy"]`$   \\
+    stock status  &             &          &  `r lstOFL.IV["status"]`  &  `r lstOFL.RE["status"]`  \\
+    $F_{OFL}$     & $year^{-1}$ & missing3 & $`r lstOFL.IV["Fofl"]`$   & $`r lstOFL.RE["Fofl"]`$   \\
+    $RM_{OFL}$    & 1000s t     & missing4 & $`r lstOFL.IV["retOFL"]`$ & $`r lstOFL.RE["retOFL"]`$ \\
+    $DM_{OFL}$    & 1000s t     & missing5 & $`r lstOFL.IV["dscOFL"]`$ & $`r lstOFL.RE["dscOFL"]`$ \\
+    $OFL$         & 1000s t     & missing6 & $`r lstOFL.IV["OFL"]`$    & $`r lstOFL.RE["OFL"]`$ \\
+    \hline
+    \end{tabular}
+\end{table}
+
+#Tables
+My Table `r tbl<-tbl+1; tbl`. Input fishery data.
+```{r FisheryDataTable, results='asis'}
+##create table of raw fishery data
+booktabs();
+tbl.FshData<-tabular(Factor(year)~Format(digits=2,nsmall=2,scientific=FALSE)*Factor(fishery)*Factor(gear)*Factor(type)*Factor(category)*catch*Heading("1000's t")*sum,data=fshData);
+write.csv.tabular(tbl.FshData,file='table.FshData.csv')
+print(tbl.FshData)
+```
+
+My Table `r tbl<-tbl+1; tbl`. Input ("raw") survey abundance data, in millions.
+```{r SurveyDataTableAbundance,results='asis'}
+##create table of raw survey abundance data
+booktabs();
+srvData.Abd<-subset(srvData,type=='abundance',select=(!(names(srvData)%in%c('type','units'))));
+tbl.SrvData.Abd<-tabular(Factor(year)~Format(digits=2,nsmall=2,scientific=FALSE)*Factor(sex)*Factor(category)*(value*sum+cv*sum),data=srvData.Abd);
+print(tbl.SrvData.Abd)
+```
+
+My Table `r tbl<-tbl+1; tbl`. Input ("raw") survey biomass data, in 1000's t.
+```{r SurveyDataTableBiomass,results='asis'}
+##create table of raw survey abundance data
+booktabs();
+srvData.Bio<-subset(srvData,type=='biomass',select=(!(names(srvData)%in%c('type','units'))));
+tbl.SrvData.Bio<-tabular(Factor(year)~Format(digits=2,nsmall=2,scientific=FALSE)*Factor(sex)*Factor(category)*(value*sum+cv*sum),data=srvData.Bio);
+print(tbl.SrvData.Bio)
+```
+
+Table `r tbl<-tbl+1; tbl`. A comparison of estimates for MMB at the time of the survey.
+```{r MMBTable,results='asis'}
+booktabs();
+tbl.MMB<-tabular(Factor(year)~Format(digits=2,nsmall=2,scientific=FALSE)*type*(value+lci+uci)*Heading("1000's t")*sum,data=srvData.Avgd);
+print(tbl.MMB)
+```
