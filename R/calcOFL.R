@@ -82,7 +82,7 @@ calcOFL<-function(mmbSrvCurr,
     return(list(prjMMB=prjMMB$mmb,Bmsy=Bmsy,status=status,
                 maxFofl=maxFofl,Fofl=Fofl,
                 retOFL=prjMMB$retM,dscOFL=prjMMB$dscM/pct.male,
-                OFL=prjMMB$retM+prjMMB$dscM));
+                OFL=prjMMB$retM+prjMMB$dscM/pct.male));
 }
 
 
