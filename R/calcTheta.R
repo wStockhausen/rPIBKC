@@ -1,7 +1,7 @@
 #'
-#'@title Calculate \eqn{\theta}, the average exploitation rate on MMB
+#'@title Calculate \eqn{\theta}, the average exploitation rate on MMB associated with discard mortality.
 #'
-#'@description Function to calculate \eqn{\theta}, the average exploitation rate on MMB
+#'@description Function to calculate \eqn{\theta}, the average exploitation rate on MMB associated with discard mortality.
 #'
 #'@param mmbLst - output from \code{\link{calcMMBMating}}
 #'@param assYr  - assesssment year
@@ -15,7 +15,7 @@
 #'where
 #'\itemize{
 #'  \item \emph{N} = number of years over which to average
-#'  \item \eqn{M_{F_{y}}} = total fishing-related mortality on mature males in year \emph{y}
+#'  \item \eqn{M_{F_{y}}} = total discard-related mortality on mature males in year \emph{y}
 #'  \item \eqn{{MMB}_{{fishing}_{y}}} = MMB just prior to the (pulse) fishery
 #'}
 #'@export

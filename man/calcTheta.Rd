@@ -2,7 +2,7 @@
 % Please edit documentation in R/calcTheta.R
 \name{calcTheta}
 \alias{calcTheta}
-\title{Calculate \eqn{\theta}, the average exploitation rate on MMB}
+\title{Calculate \eqn{\theta}, the average exploitation rate on MMB associated with discard mortality.}
 \usage{
 calcTheta(mmbLst, assYr = 2014, n = 3)
 }
@@ -22,12 +22,12 @@ calcTheta(mmbLst, assYr = 2014, n = 3)
 where
 \itemize{
  \item \emph{N} = number of years over which to average
- \item \eqn{M_{F_{y}}} = total fishing-related mortality on mature males in year \emph{y}
+ \item \eqn{M_{F_{y}}} = total discard-related mortality on mature males in year \emph{y}
  \item \eqn{{MMB}_{{fishing}_{y}}} = MMB just prior to the (pulse) fishery
 }
 }
 \description{
-Function to calculate \eqn{\theta}, the average exploitation rate on MMB
+Function to calculate \eqn{\theta}, the average exploitation rate on MMB associated with discard mortality.
 }
 \details{
 
