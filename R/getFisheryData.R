@@ -1,9 +1,11 @@
 #'
-#'@title Read the fishery data from a csv file and return it as a dataframe.
+#'@title Read the fishery data from a csv file and return it as a dataframe
 #'
 #'@description Function to read the fishery data from a csv file and return it as a dataframe.
 #'
 #'@param fn - fishery data filename
+#'
+#'@details None.
 #'
 #'@return dataframe with columns
 #'\itemize{

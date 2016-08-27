@@ -11,6 +11,8 @@
 #'
 #'@return list with vectors lci, uci as  named elements
 #'
+#'@details None.
+#'
 #'@export
 #'
 calcCIs<-function(vals,cvs,pdfType='lognormal',ci=0.95,verbose=FALSE){

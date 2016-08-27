@@ -1,5 +1,5 @@
 #'
-#'@title Do assessment.
+#'@title Do assessment
 #'
 #'@description Function to do the assessment.
 #'

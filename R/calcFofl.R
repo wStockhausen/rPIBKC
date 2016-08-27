@@ -1,5 +1,5 @@
 #'
-#'@title Calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule.
+#'@title Calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule
 #'
 #'@description Functio to calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule.
 #'
@@ -11,6 +11,7 @@
 #'
 #'@return the value of \eqn{F_{OFL}} given the mmb/Bmsy ratio, using the Tier 4 control rule.
 #'
+#'@details none.
 #'@export
 #'
 calcFofl<-function(mmb,Bmsy,maxFofl,alpha,beta){

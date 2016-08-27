@@ -9,6 +9,8 @@
 #'@param hess -
 #'@param mcmc -
 #'
+#'@details None.
+#'
 #'@return string with the run commands
 #'
 #'@export

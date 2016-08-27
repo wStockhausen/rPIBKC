@@ -1,10 +1,12 @@
 #'
-#'@title Calculate \eqn{B_{MSY}} by averaging over specified time interval.
+#'@title Calculate \eqn{B_{MSY}} by averaging over specified time interval
 #'
 #'@description Function to calculate \eqn{B_{MSY}} by averaging over specified time interval.
 #'
 #'@param mmb - time series of mmb at mating to average
 #'@param years - years to incude in average
+#'
+#'@details None.
 #'
 #'@return \eqn{B_{MSY}} (in t)
 #'

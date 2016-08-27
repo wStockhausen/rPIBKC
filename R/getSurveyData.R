@@ -1,5 +1,5 @@
 #'
-#'@title Read the survey data from a csv file and return it as a dataframe.
+#'@title Read the survey data from a csv file and return it as a dataframe
 #'
 #'@description Function to read the survey data from a csv file and return it as a dataframe.
 #'
@@ -17,13 +17,13 @@
 #'}
 #' Input units are converted to t (biomass) and ones (abundance).
 #'
-#'@importFrom wtsUtilities selectFile
+#'@details Uess \code{wtsUtilities::selectFile()}.
 #'
 #'@export
 #'
 getSurveyData<-function(fn=NULL){
     if (is.null(fn)){
-        fn<-selectFile(ext="csv",caption="Select csv file with survey data")
+        fn<-wtsUtilities::selectFile(ext="csv",caption="Select csv file with survey data")
         if (is.null(fn)) return(NULL);
     }
     srvData<-read.csv(fn,stringsAsFactors=FALSE);

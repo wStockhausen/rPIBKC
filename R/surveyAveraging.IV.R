@@ -13,6 +13,8 @@
 #'@param verbose - flag (T/F) to print intermediate output
 #'@param showPlot - flag (T/F) to plot results 
 #'
+#'@details None.
+#'
 #'@return dataframe with inverse-variance averaged survey data, with columns
 #'\itemize{
 #'  \item year = survey year
