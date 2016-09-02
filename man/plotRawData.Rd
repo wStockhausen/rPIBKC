@@ -29,11 +29,13 @@ list with named elements
  \item fshData - dataframe w/ catch biomass is in t
  \item plots - list with ggplot2 objects 
  \itemize{
-     \item pS1
-     \item pS2
-     \item pS3
-     \item pF1
-     \item pF2
+     \item retained catch time series
+     \item retained catch time series, recent time period
+     \item discard catch time series
+     \item discard catch time seies, recent time period
+     \item survey biomass time series
+     \item survey biomass time series, recent time period
+     \item survey biomass time series, log10-scale
  }
 }
 }
