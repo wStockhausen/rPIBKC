@@ -28,4 +28,3 @@ Function to read the fishery data from a csv file and return it as a dataframe.
 \details{
 None.
 }
-

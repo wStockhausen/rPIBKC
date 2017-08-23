@@ -27,4 +27,3 @@ Function to generate a script to make an ADMB model run
 \details{
 None.
 }
-

@@ -18,4 +18,3 @@ Function to generate a character string representing a crab fishery year.
 \details{
 None.
 }
-

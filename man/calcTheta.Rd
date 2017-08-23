@@ -32,4 +32,3 @@ Function to calculate \eqn{\theta}, the average exploitation rate on MMB associa
 \details{
 None.
 }
-

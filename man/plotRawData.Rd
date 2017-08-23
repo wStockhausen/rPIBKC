@@ -45,4 +45,3 @@ Function to plot raw survey and fishery data.
 \details{
 Biomass units are assumed to be in t, abundance units in ones.
 }
-

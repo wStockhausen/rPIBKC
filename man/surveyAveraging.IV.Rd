@@ -43,4 +43,3 @@ Function to smooth survey data using inverse variance averaging
 \details{
 None.
 }
-

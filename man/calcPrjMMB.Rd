@@ -47,4 +47,3 @@ the fishery, \emph{F} is the retained mortality rate in the directed fishery, \e
 \eqn{\theta} is the fraction of \eqn{MMB_f} killed as discards, \eqn{M_d} is discard catch mortality,
 and \eqn{t_{fm}} is the time (as fraction of the year) between the fishery and mating.
 }
-

@@ -26,4 +26,3 @@ Function to compute confidence intervals.
 \details{
 None.
 }
-

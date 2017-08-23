@@ -20,4 +20,3 @@ Function to calculate \eqn{B_{MSY}} by averaging over specified time interval.
 \details{
 None.
 }
-

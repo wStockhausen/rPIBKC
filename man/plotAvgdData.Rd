@@ -32,4 +32,3 @@ Function to plot averaged (and raw) data using output from one of the surveyAver
 \details{
 Biomass units are assumed to be in t, abundance units in ones.
 }
-

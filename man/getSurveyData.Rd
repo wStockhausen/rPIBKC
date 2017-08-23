@@ -28,4 +28,3 @@ Function to read the survey data from a csv file and return it as a dataframe.
 \details{
 Uess \code{wtsUtilities::selectFile()}.
 }
-

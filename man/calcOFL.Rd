@@ -63,4 +63,3 @@ OFL uses the following iterative procedure:
  \item repeat steps 2-5 until the process has converged, yielding self-consistent values for \eqn{F_{OFL}} and MMB-at-mating
 }
 }
-

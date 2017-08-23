@@ -112,4 +112,3 @@ Function to do the assessment.
 \details{
 Output units are in t for biomass, ones for abundance.
 }
-

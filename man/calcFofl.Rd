@@ -26,4 +26,3 @@ Functio to calculate \eqn{F_{OFL}} using the Tier 4 harvest control rule.
 \details{
 none.
 }
-

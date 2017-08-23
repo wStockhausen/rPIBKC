@@ -51,4 +51,3 @@ written in ADMB (C++) code. The single estimated parameter is the
 ln-scale process error variance for annual changes in survey abundance/biomass
 modeled as a random walk process. The estimated time series is output.
 }
-

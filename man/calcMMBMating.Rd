@@ -62,4 +62,3 @@ where
  \item \eqn{M_F} is total fishing mortality (retained + discard mortality) on mature males
 }
 }
-
