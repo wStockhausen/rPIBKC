@@ -24,10 +24,10 @@ getRunCommands<-function(os='osx',
     
     if (tolower(os)=='win'){
         model1<-basename(path2model);            #will include exe
-        model<-substr(model1,1,length(model1)-4);#just the model name
+        model<-substr(model1,1,nchar(model1)-4);#just the model name
         run.cmds<-'echo on
                     copy &&path2model &&model1
-                    &&model -rs -nox  &&mcmc &&nohess &&jitter &&seed &&pin
+                    &&model -rs -nox  &&mcmc &&nohess &&pin
                     del &&model1
                     del &&model.bar
                     del &&model.b0*

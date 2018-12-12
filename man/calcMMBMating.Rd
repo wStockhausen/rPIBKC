@@ -4,9 +4,9 @@
 \alias{calcMMBMating}
 \title{Calculate projected MMB at mating.}
 \usage{
-calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18, t.sf = 3/12,
-  t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8, pct.male = 0.5,
-  showPlot = FALSE)
+calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18,
+  t.sf = 3/12, t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8,
+  pct.male = 0.5, showPlot = FALSE)
 }
 \arguments{
 \item{fshData}{- dataframe with fishery data}

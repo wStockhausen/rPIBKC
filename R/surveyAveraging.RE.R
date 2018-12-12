@@ -59,12 +59,14 @@ surveyAveraging.RE<-function(srvData,
     dfr<-data.frame(year=sd$year,type='raw',value=sd$value,lci=lci,uci=uci);
 
     #determine model name and OS
-    os<-'OSX';
+    os<-'osx';
     model<-basename(modelPath);
-    if (substr(model,length(model)-3,length(model))=='.exe') {
+    if (verbose) message(paste0("substr: '",substr(model,nchar(model)-3,nchar(model)),"'"));
+    if (substr(model,nchar(model)-3,nchar(model))=='.exe') {
         os<-'win';
-        model<-substr(model,1,length(model)-4)
+        model<-substr(model,1,nchar(model)-4);
     }
+    if (verbose) message(paste0("assumed OS is '",os,"'"));
     
     #switch to run folder (create if necessary)
     currdir<-getwd();
@@ -86,7 +88,8 @@ surveyAveraging.RE<-function(srvData,
     close(con);
     
     #set up commands
-    run.cmds<-getRunCommands(os=os,path2model=modelPath,hess=TRUE);
+    fsep<-.Platform$file.sep; if (os=="win") fsep<-"\\";
+    run.cmds<-getRunCommands(os=os,path2model=file.path(dirname(modelPath),basename(modelPath),fsep=fsep),hess=TRUE);
     if (verbose) cat(run.cmds,"\n")
     
     #run the ADMB model
@@ -104,7 +107,7 @@ surveyAveraging.RE<-function(srvData,
     fn.par<-file.path(getwd(),"&&model.par");
     fn.par<-gsub('&&model',tolower(model),fn.par)
     
-    res.RE<-readList('rwout.rep')
+    res.RE<-PBSmodelling::readList('rwout.rep')
 
     #finish off the output
     res<-calcCIs(res.RE$est,res.RE$cv,pdfType=pdfType,ci=ci,verbose=verbose);
