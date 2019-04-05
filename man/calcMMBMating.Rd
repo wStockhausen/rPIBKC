@@ -4,8 +4,8 @@
 \alias{calcMMBMating}
 \title{Calculate projected MMB at mating.}
 \usage{
-calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18,
-  t.sf = 3/12, t.fm = 4/12, hm.pot = 0.5, hm.trl = 0.8,
+calcMMBMating(fshData, avgSrvData, avgType = "RE", M = 0.18,
+  t.sf = 3/12, t.fm = 4/12, hm.pot = 0.2, hm.trl = 0.8,
   pct.male = 0.5, showPlot = FALSE)
 }
 \arguments{
@@ -13,19 +13,21 @@ calcMMBMating(fshData, avgSrvData, avgType = "IV", M = 0.18,
 
 \item{avgSrvData}{- dataframe with MMB at time of survey}
 
-\item{avgType}{- type of survey MMB to use ('raw', 'IV' or 'RE')}
+\item{avgType}{- type of survey MMB to use ('raw', 'IV' or 'RE'; default='RE')}
 
-\item{M}{- assumed rate of natural mortality}
+\item{M}{- assumed rate of natural mortality (default=0.18)}
 
-\item{t.sf}{- time from survey to fishery}
+\item{t.sf}{- time from survey to fishery  (default=3/12 year)}
 
-\item{t.fm}{- time from fishery to mating}
+\item{t.fm}{- time from fishery to mating  (default=4/12 year)}
 
-\item{hm.pot}{- handling mortality rate for fixed gear (pot) fisheries}
+\item{hm.pot}{- handling mortality rate for fixed gear (pot) fisheries (default=0.2)}
 
-\item{hm.trl}{- handling mortality rate for trawl fisheries}
+\item{hm.trl}{- handling mortality rate for trawl fisheries            (default=0.8)}
 
-\item{pct.male}{- assumed male percentage}
+\item{pct.male}{- assumed male percentage (default=0.5)}
+
+\item{showPlot}{- flag to show plot (T/F; default=FALSE)}
 }
 \value{
 list with MMB at mating and other time series. Elements are:

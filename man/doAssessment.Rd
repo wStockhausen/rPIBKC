@@ -65,7 +65,7 @@ list consisting of the following elements:
    \item plots.RawData - list of ggplot2 objects
    \item plots.AvgdData - list of ggplot2 objects
  }
- \item lstMMB - list from \code{\link{calcMMBmating}}:
+ \item lstMMB - list from \code{\link{calcMMBMating}}:
  \itemize{
    \item mmbMat = MB at maturity (t)
    \item mmbFsh = MMB at fishery time (t)

@@ -5,13 +5,14 @@
 #'
 #'@param fshData    - dataframe with fishery data
 #'@param avgSrvData - dataframe with MMB at time of survey
-#'@param avgType    - type of survey MMB to use ('raw', 'IV' or 'RE')
-#'@param M    - assumed rate of natural mortality
-#'@param t.sf - time from survey to fishery
-#'@param t.fm - time from fishery to mating
-#'@param hm.pot - handling mortality rate for fixed gear (pot) fisheries
-#'@param hm.trl - handling mortality rate for trawl fisheries
-#'@param pct.male - assumed male percentage
+#'@param avgType    - type of survey MMB to use ('raw', 'IV' or 'RE'; default='RE')
+#'@param M    - assumed rate of natural mortality (default=0.18)
+#'@param t.sf - time from survey to fishery  (default=3/12 year)
+#'@param t.fm - time from fishery to mating  (default=4/12 year)
+#'@param hm.pot - handling mortality rate for fixed gear (pot) fisheries (default=0.2)
+#'@param hm.trl - handling mortality rate for trawl fisheries            (default=0.8)
+#'@param pct.male - assumed male percentage (default=0.5)
+#'@param showPlot - flag to show plot (T/F; default=FALSE)
 #'
 #'@details annual estimates of MMB at mating are calculated using
 #'> \deqn{MMB_{mating} = (MMB_{survey} \cdot e^{-M \cdot t_{sf}}-M_F) \cdot e^{-M \cdot t_{fm}}}
@@ -49,11 +50,11 @@
 #'
 calcMMBMating<-function(fshData,
                         avgSrvData,
-                        avgType='IV',
+                        avgType='RE',
                         M=0.18,
                         t.sf=3/12,
                         t.fm=4/12,
-                        hm.pot=0.5,
+                        hm.pot=0.2,
                         hm.trl=0.8,
                         pct.male=0.5,
                         showPlot=FALSE){
