@@ -111,7 +111,7 @@ surveyAveraging.RE<-function(srvData,
 
     #finish off the output
     res<-calcCIs(res.RE$est,res.RE$cv,pdfType=pdfType,ci=ci,verbose=verbose);
-    dfr<-rbind(dfr,data.frame(year=res.RE$yrs,type='RE',value=res.RE$est,lci=res$lci,uci=res$uci));
+    dfr<-rbind(dfr,data.frame(year=res.RE$est_yrs,type='RE',value=res.RE$est,lci=res$lci,uci=res$uci));
 
     if (showPlot) plotAvgdData(dfr);
     
