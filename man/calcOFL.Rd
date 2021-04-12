@@ -4,9 +4,19 @@
 \alias{calcOFL}
 \title{Calculate the OFL using a Tier 4 approach.}
 \usage{
-calcOFL(mmbSrvCurr, Bmsy, theta, M = 0.18, gamma = 1, alpha = 0.1,
-  beta = 0.25, t.sf = 3/12, t.fm = 4/12, pct.male = 0.5,
-  verbose = FALSE)
+calcOFL(
+  mmbSrvCurr,
+  Bmsy,
+  theta,
+  M = 0.18,
+  gamma = 1,
+  alpha = 0.1,
+  beta = 0.25,
+  t.sf = 3/12,
+  t.fm = 4/12,
+  pct.male = 0.5,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{mmbSrvCurr}{- "current" MMB at time of survey}

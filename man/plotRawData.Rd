@@ -4,9 +4,15 @@
 \alias{plotRawData}
 \title{Plot raw survey and fishery data.}
 \usage{
-plotRawData(srvData = NULL, fshData = NULL, yr2 = 1990,
-  pdfType = "lognormal", ci = 0.95, verbose = FALSE,
-  showPlot = FALSE)
+plotRawData(
+  srvData = NULL,
+  fshData = NULL,
+  yr2 = 1990,
+  pdfType = "lognormal",
+  ci = 0.95,
+  verbose = FALSE,
+  showPlot = FALSE
+)
 }
 \arguments{
 \item{srvData}{- survey data dataframe, path to csv file, or NULL}

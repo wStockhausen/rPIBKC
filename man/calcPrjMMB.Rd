@@ -4,8 +4,15 @@
 \alias{calcPrjMMB}
 \title{Calculate projected MMMB at mating based on a fishing mortality rate.}
 \usage{
-calcPrjMMB(mmbSrvCurr, Fm, theta, M = 0.18, t.sf = 3/12, t.fm = 4/12,
-  verbose = FALSE)
+calcPrjMMB(
+  mmbSrvCurr,
+  Fm,
+  theta,
+  M = 0.18,
+  t.sf = 3/12,
+  t.fm = 4/12,
+  verbose = FALSE
+)
 }
 \arguments{
 \item{mmbSrvCurr}{- current MMB at time of survey}

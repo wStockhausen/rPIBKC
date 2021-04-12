@@ -2,7 +2,7 @@
 % Please edit documentation in R/getSurveyData.R
 \name{getSurveyData}
 \alias{getSurveyData}
-\title{Read the survey data from a csv file and return it as a dataframe}
+\title{Read survey data (abundance, biomass) from a csv file and return it as a dataframe}
 \usage{
 getSurveyData(fn = NULL)
 }
@@ -10,7 +10,16 @@ getSurveyData(fn = NULL)
 \item{fn}{- survey data filename}
 }
 \value{
-dataframe with columns:
+dataframe with same columns as input file. Input units are 
+converted to t (biomass) and ones (abundance).
+}
+\description{
+Function to read survey data (abundance, biomass by sex and category) 
+from a csv file and return it as a dataframe.
+}
+\details{
+Uses \code{wtsUtilities::selectFile()}. The input datafile must be a csv
+file with columns 
 \itemize{
  \item year
  \item type (abundance/biomass)
@@ -20,11 +29,6 @@ dataframe with columns:
  \item value
  \item cv
 }
-Input units are converted to t (biomass) and ones (abundance).
-}
-\description{
-Function to read the survey data from a csv file and return it as a dataframe.
-}
-\details{
-Uess \code{wtsUtilities::selectFile()}.
+Allowable units for abundance are 'ones', 'thousands', 'millions'.
+Allowable units for biomass are 'kg', 't', and "1000's t".
 }

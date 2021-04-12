@@ -6,7 +6,8 @@
 #'@details This function uses an ADMB random effects model (originally developed by Jim Ianelli 
 #'and subsequently modified by William Stockhausen) to smooth/interpolate survey data.
 #'
-#'smooth survey data 
+#' 
+#'@param maxYr - max year for output (typically assessment year)
 #'@param srvData - raw survey data dataframe
 #'@param type - data type ('abundance' or 'biomass') to average
 #'@param sex - sex ('male' or 'female') to average
@@ -17,13 +18,22 @@
 #'@param verbose - flag (T/F) to print intermediate output
 #'@param showPlot - flag (T/F) to plot results 
 #'
-#'@return dataframe with smoothed survey data, with columns
+#'@return list with a dataframe ('dfr') and another list ('lst') as elements. T
+#'he dataframe is the smoothed survey data, with columns
 #'\itemize{
 #'  \item year = survey year
 #'  \item type = 'RE'
-#'  \item value = averaged value
+#'  \item value = averaged or predicted value
 #'  \item lci   = lower confidence interval
 #'  \item uci   = upper confidence interval
+#'}
+#'The list contains other results from the model optimization, including
+#'\itemize{
+#'  \item objFun = the final objective function value
+#'  \item maxGrad = the max gradient 
+#'  \item sdrepSdLam = the estimated process error standard deviation, on the arithmetic scale
+#'  \item sdrepSdLam.sd = the standard deviation of the estimated process error standard deviation, on the arithmetic scale
+#'  \item and others
 #'}
 #'
 #'@importFrom PBSmodelling readList
@@ -35,7 +45,8 @@
 #'
 #'@export
 #'
-surveyAveraging.RE<-function(srvData,
+surveyAveraging.RE<-function(maxYr,
+                             srvData,
                               type='biomass',
                               sex='male',
                               category='mature',
@@ -79,7 +90,7 @@ surveyAveraging.RE<-function(srvData,
     #set up input data file to RE
     con<-file(paste(model,'dat',sep='.'),open='wt');
     writeLines(paste(min(sd$year),   "\t#min year"),con);
-    writeLines(paste(max(sd$year),   "\t#max year"),con);
+    writeLines(paste(maxYr,          "\t#max year"),con);#--can be > max(survey year) for predictions
     writeLines(paste(length(sd$year),"\t#number of observations"),con);
     writeLines(paste(0,              "\t#uncertainty type (0 = cv's, 1 = sd's)"),con);
     csv<-sd[,c("year","value","cv")];
@@ -104,16 +115,15 @@ surveyAveraging.RE<-function(srvData,
     }
     
     #read model results
-    fn.par<-file.path(getwd(),"&&model.par");
-    fn.par<-gsub('&&model',tolower(model),fn.par)
-    
+    # fn.par<-file.path(getwd(),"&&model.par");
+    # fn.par<-gsub('&&model',tolower(model),fn.par)
     res.RE<-PBSmodelling::readList('rwout.rep')
 
     #finish off the output
     res<-calcCIs(res.RE$est,res.RE$cv,pdfType=pdfType,ci=ci,verbose=verbose);
-    dfr<-rbind(dfr,data.frame(year=res.RE$est_yrs,type='RE',value=res.RE$est,lci=res$lci,uci=res$uci));
+    dfr<-rbind(dfr,data.frame(year=res.RE$yrs,type='RE',value=res.RE$est,lci=res$lci,uci=res$uci));
 
     if (showPlot) plotAvgdData(dfr);
     
-    return(dfr);
+    return(list(dfr=dfr,lst=res.RE));
 }

@@ -4,11 +4,22 @@
 \alias{surveyAveraging.RE}
 \title{Smooth/interpolate survey data using a random effects/kalman filter model (RE).}
 \usage{
-surveyAveraging.RE(srvData, type = "biomass", sex = "male",
-  category = "mature", pdfType = "lognormal", ci = 0.95,
-  modelPath = getPath2REM(), verbose = FALSE, showPlot = FALSE)
+surveyAveraging.RE(
+  maxYr,
+  srvData,
+  type = "biomass",
+  sex = "male",
+  category = "mature",
+  pdfType = "lognormal",
+  ci = 0.95,
+  modelPath = getPath2REM(),
+  verbose = FALSE,
+  showPlot = FALSE
+)
 }
 \arguments{
+\item{maxYr}{- max year for output (typically assessment year)}
+
 \item{srvData}{- raw survey data dataframe}
 
 \item{type}{- data type ('abundance' or 'biomass') to average}
@@ -28,13 +39,22 @@ surveyAveraging.RE(srvData, type = "biomass", sex = "male",
 \item{showPlot}{- flag (T/F) to plot results}
 }
 \value{
-dataframe with smoothed survey data, with columns
+list with a dataframe ('dfr') and another list ('lst') as elements. T
+he dataframe is the smoothed survey data, with columns
 \itemize{
  \item year = survey year
  \item type = 'RE'
- \item value = averaged value
+ \item value = averaged or predicted value
  \item lci   = lower confidence interval
  \item uci   = upper confidence interval
+}
+The list contains other results from the model optimization, including
+\itemize{
+ \item objFun = the final objective function value
+ \item maxGrad = the max gradient 
+ \item sdrepSdLam = the estimated process error standard deviation, on the arithmetic scale
+ \item sdrepSdLam.sd = the standard deviation of the estimated process error standard deviation, on the arithmetic scale
+ \item and others
 }
 }
 \description{
@@ -43,8 +63,6 @@ Function to smooth/interpolate survey data using a random effects/kalman filter 
 \details{
 This function uses an ADMB random effects model (originally developed by Jim Ianelli 
 and subsequently modified by William Stockhausen) to smooth/interpolate survey data.
-
-smooth survey data 
 
 Smoothing is done using a Kalman Filter/Random Effects model
 written in ADMB (C++) code. The single estimated parameter is the 

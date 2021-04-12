@@ -4,8 +4,13 @@
 \alias{getRunCommands}
 \title{Generate run commands for an ADMB model run}
 \usage{
-getRunCommands(os = "osx", path2model = getPath2REM(), pin = FALSE,
-  hess = TRUE, mcmc = FALSE)
+getRunCommands(
+  os = "osx",
+  path2model = getPath2REM(),
+  pin = FALSE,
+  hess = TRUE,
+  mcmc = FALSE
+)
 }
 \arguments{
 \item{os}{- 'win' or 'mac'}

@@ -4,8 +4,7 @@
 \alias{plotAvgdData}
 \title{Plot averaged data.}
 \usage{
-plotAvgdData(dfr, yr2 = 1990, maxY = NULL, verbose = FALSE,
-  showPlot = FALSE)
+plotAvgdData(dfr, yr2 = 1990, maxY = NULL, verbose = FALSE, showPlot = FALSE)
 }
 \arguments{
 \item{dfr}{- dataframe output from one of the surveyAveraging functions}

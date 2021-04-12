@@ -1,8 +1,8 @@
 Package: rPIBKC
 Type: Package
 Title: Package to  run the PIBKC stock assessment.
-Version: 2019.04.04
-Date: 2019-04-04
+Version: 2021.04.12
+Date: 2021-04-12
 Author: William Stockhausen (NOAA/NMFS/AFSC)
 Maintainer: William Stockhausen <william.stockhausen@noaa.gov>
 Description: Contains functions to run the PIBKC stock assessment.
@@ -12,4 +12,4 @@ Imports:
     PBSmodelling (>= 2.68.6),
     reshape2 (>= 1.4.1),
     wtsUtilities (>= 2016.09.02)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1

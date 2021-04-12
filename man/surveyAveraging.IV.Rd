@@ -4,9 +4,17 @@
 \alias{surveyAveraging.IV}
 \title{Smooth survey data using inverse variance (IV) averaging}
 \usage{
-surveyAveraging.IV(srvData, type = "biomass", sex = "male",
-  category = "mature", n = 3, pdfType = "lognormal", ci = 0.95,
-  verbose = FALSE, showPlot = FALSE)
+surveyAveraging.IV(
+  srvData,
+  type = "biomass",
+  sex = "male",
+  category = "mature",
+  n = 3,
+  pdfType = "lognormal",
+  ci = 0.95,
+  verbose = FALSE,
+  showPlot = FALSE
+)
 }
 \arguments{
 \item{srvData}{- raw survey data dataframe}
