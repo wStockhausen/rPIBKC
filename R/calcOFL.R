@@ -70,8 +70,13 @@ calcOFL<-function(mmbSrvCurr,
     itF <- maxFofl; dF<-Inf; cnt<-0;
     while((abs(dF)>1.0e-4)&(cnt<100)){
         #calc projected MMB based on Fofl "guess"
-        prjMMB<-calcPrjMMB(mmbSrvCurr,itF,theta,
-                           M=M,t.sf=t.sf,t.fm=t.fm);
+        prjMMB<-calcPrjMMB(mmbSrvCurr,
+                           Fm=itF,
+                           theta=theta,
+                           M=M,
+                           t.sf=t.sf,
+                           t.fm=t.fm,
+                           rec=rec);
         #Fofl corresponding to projected MMB at mating based on "guessed" Fofl
         Fofl<-calcFofl(prjMMB$mmb,Bmsy,maxFofl,alpha,beta);
         #increment guess and counter
@@ -82,8 +87,14 @@ calcOFL<-function(mmbSrvCurr,
     if (verbose) cat("iteration count: ",cnt,". Fofl: ",Fofl,"\n");
 
     #calculate projected MMB at Fofl
-    prjMMB<-calcPrjMMB(mmbSrvCurr,Fofl,theta,
-                       M=M,t.sf=t.sf,t.fm=t.fm,verbose=verbose);
+    prjMMB<-calcPrjMMB(mmbSrvCurr,
+                       Fm=Fofl,
+                       theta=theta,
+                       M=M,
+                       t.sf=t.sf,
+                       t.fm=t.fm,
+                       rec=rec,
+                       verbose=verbose);
 
     status<-ifelse(prjMMB$mmb/Bmsy<0.5,"overfished","not overfished");
     

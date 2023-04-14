@@ -41,7 +41,7 @@ calcPrjMMB(
 }}
 
 \item{rec}{\itemize{
-\item assumed recruitment to MMB with mating (0 for PIBKC assessment)
+\item assumed recruitment to MMB at mating (0 for PIBKC assessment)
 }}
 
 \item{verbose}{\itemize{
@@ -51,7 +51,7 @@ calcPrjMMB(
 \value{
 list with elements:
 \itemize{
-\item mmb  = \eqn{MMB_m} (t), MMB at time of mating (mmbMatPrj)
+\item mmb  = \eqn{MMB_m} (t), MMB at time of mating (includes recruitment)
 \item retM = retained mortality (t)
 \item dscM = discard mortality on MMB (t) (\strong{NOT} total discard mortality)
 \item mmbBF = projected MMB just before the fishery (t)
@@ -69,11 +69,12 @@ MMB-at-mating is projected from survey MMB for a given directed fishing mortalit
 \item \eqn{MMB_f = MMB_s \cdot exp(-M \cdot t_{sf})}
 \item \eqn{M_r = MMB_f \cdot (1-exp(-F))}
 \item \eqn{M_d = \theta \cdot MMB_f}
-\item \eqn{MMB_m = [MMB_f - (M_r + M_d)] \cdot exp(-M \cdot t_{fm})}
+\item \eqn{MMB_m = [MMB_f - (M_r + M_d)] \cdot exp(-M \cdot t_{fm}) + R}
 }
 where \eqn{MMB_s} is MMB at the time of the survey, \emph{M} is the rate of natural mortality, \eqn{t_{sf}}
 is the time (as a fraction of the year) between the survey and fishery, \eqn{MMB_f} is MMB just before
 the fishery, \emph{F} is the retained mortality rate in the directed fishery, \eqn{M_r} is retained catch mortality,
 \eqn{\theta} is the fraction of \eqn{MMB_f} killed as discards, \eqn{M_d} is discard catch mortality,
-and \eqn{t_{fm}} is the time (as fraction of the year) between the fishery and mating.
+\eqn{t_{fm}} is the time (as fraction of the year) between the fishery and mating, and \eqn{R} is the assumed
+recruitment to the mature male component of the stock at mating.
 }
