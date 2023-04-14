@@ -37,6 +37,7 @@
 #'}
 #'
 #'@importFrom PBSmodelling readList
+#'@importFrom utils write.table
 #'
 #'@details Smoothing is done using a Kalman Filter/Random Effects model
 #'written in ADMB (C++) code. The single estimated parameter is the 

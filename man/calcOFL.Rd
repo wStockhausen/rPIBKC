@@ -15,43 +15,76 @@ calcOFL(
   t.sf = 3/12,
   t.fm = 4/12,
   pct.male = 0.5,
+  rec = 0,
   verbose = FALSE
 )
 }
 \arguments{
-\item{mmbSrvCurr}{- "current" MMB at time of survey}
+\item{mmbSrvCurr}{\itemize{
+\item "current" MMB at time of survey
+}}
 
-\item{Bmsy}{- \eqn{B_{MSY}} (see \code{\link{calcBmsy}})}
+\item{Bmsy}{\itemize{
+\item \eqn{B_{MSY}} (see \code{\link{calcBmsy}})
+}}
 
-\item{theta}{- value for \eqn{\theta} (see  \code{\link{calcTheta}})}
+\item{theta}{\itemize{
+\item value for \eqn{\theta} (see  \code{\link{calcTheta}})
+}}
 
-\item{M}{- natural mortality rate}
+\item{M}{\itemize{
+\item natural mortality rate
+}}
 
-\item{gamma}{- value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})}
+\item{gamma}{\itemize{
+\item value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})
+}}
 
-\item{alpha}{- value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)}
+\item{alpha}{\itemize{
+\item value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)
+}}
 
-\item{beta}{- value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)}
+\item{beta}{\itemize{
+\item value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)
+}}
 
-\item{t.sf}{- time (fraction of year) from survey to (pulse) fishery}
+\item{t.sf}{\itemize{
+\item time (fraction of year) from survey to (pulse) fishery
+}}
 
-\item{t.fm}{- time (as fraction of year) from (pulse) fishery to mating}
+\item{t.fm}{\itemize{
+\item time (as fraction of year) from (pulse) fishery to mating
+}}
 
-\item{pct.male}{- assumed male percentage}
+\item{pct.male}{\itemize{
+\item assumed male percentage
+}}
 
-\item{verbose}{- flag (T/F) to print intermediate output}
+\item{rec}{\itemize{
+\item assumed recruitment to mature male biomass at time of mating (added to MMB after fishery)
+}}
+
+\item{verbose}{\itemize{
+\item flag (T/F) to print intermediate output
+}}
 }
 \value{
 List with elements:
 \itemize{
- \item prjMMB = projected MMB to time of mating (in t)
- \item Bmsy   = Tier 4 \eqn{B_{MSY}} (in t),
- \item status = Tier 4 "overfished" status
- \item maxFofl = max allowed \eqn{F_{OFL} (=\gamma \cdot M)} [Tier 4]
- \item Fofl   = Tier 4 \eqn{F_{OFL}}, based on the Tier 4 harvest control rule
- \item retOFL = retained portion of total OFL (in t)
- \item dscOFL = discard portion of total (male + female) OFL (in t)
- \item OFL    = total OFL (in t)
+\item prjMMB - projected MMB to time of mating (in t)
+\item Bmsy   - Tier 4 \eqn{B_{MSY}} (in t),
+\item status - Tier 4 status ("overfished" or "not overfished")
+\item maxFofl - max allowed \eqn{F_{OFL} = \gamma \cdot M} for Tier 4
+\item Fofl   - Tier 4 \eqn{F_{OFL}}, based on the Tier 4 harvest control rule
+\item retOFL - retained portion of total OFL (in t)
+\item dscOFL - discard portion of total (male + female) OFL (in t)
+\item OFL    - total OFL (in t)
+\item dscOFL -  discard portion of mature male OFL (in t)
+\item mmbBF - MMB just before fishery
+\item mmbAF - MMB just after fishery
+\item mmbBM - MMB just before mating
+\item rec - recruitment added to mmbBM to obtain prjMMB
+\item status ratio - numerical ratio describing status
 }
 }
 \description{
@@ -65,11 +98,11 @@ upcoming fishing season), the MMB-at-mating itself depends what \emph{will be} c
 which in turns depends on the OFL and (possibly) the \eqn{F_{OFL}}. Consequently, the calculation for
 OFL uses the following iterative procedure:
 \enumerate{
- \item "guess" a value for \eqn{F_{OFL}} (\eqn{F_{OFL_{max}} = \gamma \cdot M} is used) 
- \item determine the OFL corresponding to fishing at \eqn{F_{OFL}}
- \item project MMB-at-mating from the "current" survey MMB (raw or averaged) and the OFL
- \item use the harvest control rule to determine the \eqn{F_{OFL}} corresponding to the projected MMB-at-mating
- \item update the "guess" in 1. for the result in 4.
- \item repeat steps 2-5 until the process has converged, yielding self-consistent values for \eqn{F_{OFL}} and MMB-at-mating
+\item "guess" a value for \eqn{F_{OFL}} (\eqn{F_{OFL_{max}} = \gamma \cdot M} is used)
+\item determine the OFL corresponding to fishing at \eqn{F_{OFL}}
+\item project MMB-at-mating from the "current" survey MMB (raw or averaged) and the OFL
+\item use the harvest control rule to determine the \eqn{F_{OFL}} corresponding to the projected MMB-at-mating
+\item update the "guess" in 1. for the result in 4.
+\item repeat steps 2-5 until the process has converged, yielding self-consistent values for \eqn{F_{OFL}} and MMB-at-mating
 }
 }

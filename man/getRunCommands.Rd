@@ -13,15 +13,25 @@ getRunCommands(
 )
 }
 \arguments{
-\item{os}{- 'win' or 'mac'}
+\item{os}{\itemize{
+\item 'win' or 'mac'
+}}
 
-\item{path2model}{-}
+\item{path2model}{\itemize{
+\item 
+}}
 
-\item{pin}{-}
+\item{pin}{\itemize{
+\item 
+}}
 
-\item{hess}{-}
+\item{hess}{\itemize{
+\item 
+}}
 
-\item{mcmc}{-}
+\item{mcmc}{\itemize{
+\item 
+}}
 }
 \value{
 string with the run commands

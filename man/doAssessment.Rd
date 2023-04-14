@@ -29,98 +29,140 @@ doAssessment(
 )
 }
 \arguments{
-\item{assYr}{- year of assessment}
+\item{assYr}{\itemize{
+\item year of assessment
+}}
 
-\item{recentYear}{- recent year to set time axis for some plots}
+\item{recentYear}{\itemize{
+\item recent year to set time axis for some plots
+}}
 
-\item{srvData}{- survey data dataframe, path to csv file, or NULL}
+\item{srvData}{\itemize{
+\item survey data dataframe, path to csv file, or NULL
+}}
 
-\item{fshData}{- fisheries data dataframe, path to csv file, or NULL}
+\item{fshData}{\itemize{
+\item fisheries data dataframe, path to csv file, or NULL
+}}
 
-\item{avgTypeForMMB}{- flag indicating averaging type for survey data ('raw', 'IV' or 'RE')}
+\item{avgTypeForMMB}{\itemize{
+\item flag indicating averaging type for survey data ('raw', 'IV' or 'RE')
+}}
 
-\item{yrsForBmsy}{- years for \eqn{B_{MSY}} calculation}
+\item{yrsForBmsy}{\itemize{
+\item years for \eqn{B_{MSY}} calculation
+}}
 
-\item{nYrsSrvIV}{- number of years to include in inverse variance averages}
+\item{nYrsSrvIV}{\itemize{
+\item number of years to include in inverse variance averages
+}}
 
-\item{nYrsTheta}{- number of years to average for \eqn{\theta} calculation}
+\item{nYrsTheta}{\itemize{
+\item number of years to average for \eqn{\theta} calculation
+}}
 
-\item{M}{- rate of natural mortality}
+\item{M}{\itemize{
+\item rate of natural mortality
+}}
 
-\item{t.sf}{- time from survey to fishery}
+\item{t.sf}{\itemize{
+\item time from survey to fishery
+}}
 
-\item{t.fm}{- time from fishery to mating}
+\item{t.fm}{\itemize{
+\item time from fishery to mating
+}}
 
-\item{hm.pot}{- pot fisheries handling mortality rate}
+\item{hm.pot}{\itemize{
+\item pot fisheries handling mortality rate
+}}
 
-\item{hm.trl}{- trawl fisheries handling mortality rate}
+\item{hm.trl}{\itemize{
+\item trawl fisheries handling mortality rate
+}}
 
-\item{pct.male}{- assumed male percentage}
+\item{pct.male}{\itemize{
+\item assumed male percentage
+}}
 
-\item{gamma}{- value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})}
+\item{gamma}{\itemize{
+\item value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})
+}}
 
-\item{alpha}{- value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)}
+\item{alpha}{\itemize{
+\item value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)
+}}
 
-\item{beta}{- value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)}
+\item{beta}{\itemize{
+\item value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)
+}}
 
-\item{pdfType}{- probability distribution for error bars}
+\item{pdfType}{\itemize{
+\item probability distribution for error bars
+}}
 
-\item{ci}{- confidence interval for error bar plots}
+\item{ci}{\itemize{
+\item confidence interval for error bar plots
+}}
 
-\item{verbose}{- flag (T/F) to print intermediate output}
+\item{verbose}{\itemize{
+\item flag (T/F) to print intermediate output
+}}
 
-\item{showPlot}{- flag (T/F) to plot results}
+\item{showPlot}{\itemize{
+\item flag (T/F) to plot results
+}}
 }
 \value{
-list consisting of the following elements: 
+list consisting of the following elements:
 \itemize{
- \item data - list with elements:
- \itemize{
-   \item fshData - dataframe with fishery data
-   \item srvData - dataframe with 'raw' survey data
-   \item avgSrvData - dataframe with 'smoothed' survey data
-   \item plots.RawData - list of ggplot2 objects
-   \item plots.AvgdData - list of ggplot2 objects
- }
- \item lstMMB - list from \code{\link{calcMMBMating}}:
- \itemize{
-   \item mmbMat = MB at maturity (t)
-   \item mmbFsh = MMB at fishery time (t)
-   \item mmbSrv = MMB at survey time (t)
-   \item retM = retained mortality (t)
-   \item dscM = list with elements: 
-   \itemize{
-     \item tot = total discard mortality (t)
-     \item gft = groundfish trawl fisheries mortality (t)
-     \item gfp = groundfish pot fisheries mortality (t)
-     \item crb = crab fisheries discard mortality (t)
-   }
- \item plots = list with elements: 
-   \itemize{
-     \item MMB = MMB time series ggplot2 plot object 
-   }
- }
- \item inputs.OFL - list of inputs to \code{\link{calcOFL}}, with elements: 
- \itemize{
-   \item mmbSrvCurr - "current" value of MMB at survey time
-   \item Bmsy - \eqn{B_{MSY}} from \code{\link{calcBmsy}}
-   \item theta - \eqn{\theta}, from \code{\link{calcTheta}}
-   \item M - rate of natural mortality, \eqn{M}
-   \item gamma - value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})
-   \item alpha - value for the Tier 4 \eqn{\alpha} constant
-   \item beta - value for the Tier 4 \eqn{\beta} constant
-   \item t.sf - time from survey to fishery (as fraction of year)
-   \item t.fm - time from fishery to mating (as fraction of year)
- }
- \item lstOFL - list result from \code{\link{calcOFL}}, with elements:
- \itemize{
-   \item maxFofl = max allowed \eqn{F_{OFL_{max}} (= \gamma \cdot M)})
-   \item Bmsy   = \eqn{B_{MSY}} (in t)
-   \item Fofl   = \eqn{F_{OFL}} (in t)
-   \item prjMMB = projected MMB (in t)
-   \item retOFL = retained portion of total OFL (in t)
-   \item dscOFL = discard portion of total OFL (in t)
- }
+\item data - list with elements:
+\itemize{
+\item fshData - dataframe with fishery data
+\item srvData - dataframe with 'raw' survey data
+\item avgSrvData - dataframe with 'smoothed' survey data
+\item plots.RawData - list of ggplot2 objects
+\item plots.AvgdData - list of ggplot2 objects
+}
+\item lstMMB - list from \code{\link{calcMMBMating}}:
+\itemize{
+\item mmbMat = MB at maturity (t)
+\item mmbFsh = MMB at fishery time (t)
+\item mmbSrv = MMB at survey time (t)
+\item retM = retained mortality (t)
+\item dscM = list with elements:
+\itemize{
+\item tot = total discard mortality (t)
+\item gft = groundfish trawl fisheries mortality (t)
+\item gfp = groundfish pot fisheries mortality (t)
+\item crb = crab fisheries discard mortality (t)
+}
+\item plots = list with elements:
+\itemize{
+\item MMB = MMB time series ggplot2 plot object
+}
+}
+\item inputs.OFL - list of inputs to \code{\link{calcOFL}}, with elements:
+\itemize{
+\item mmbSrvCurr - "current" value of MMB at survey time
+\item Bmsy - \eqn{B_{MSY}} from \code{\link{calcBmsy}}
+\item theta - \eqn{\theta}, from \code{\link{calcTheta}}
+\item M - rate of natural mortality, \eqn{M}
+\item gamma - value for the Tier 4 \eqn{\gamma} constant (in Tier 4: \eqn{F_{OFL_{max}} = \gamma \cdot M})
+\item alpha - value for the Tier 4 \eqn{\alpha} constant
+\item beta - value for the Tier 4 \eqn{\beta} constant
+\item t.sf - time from survey to fishery (as fraction of year)
+\item t.fm - time from fishery to mating (as fraction of year)
+}
+\item lstOFL - list result from \code{\link{calcOFL}}, with elements:
+\itemize{
+\item maxFofl = max allowed \eqn{F_{OFL_{max}} (= \gamma \cdot M)})
+\item Bmsy   = \eqn{B_{MSY}} (in t)
+\item Fofl   = \eqn{F_{OFL}} (in t)
+\item prjMMB = projected MMB (in t)
+\item retOFL = retained portion of total OFL (in t)
+\item dscOFL = discard portion of total OFL (in t)
+}
 }
 }
 \description{

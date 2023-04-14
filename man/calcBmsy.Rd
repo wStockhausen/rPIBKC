@@ -7,9 +7,13 @@
 calcBmsy(mmb, years = c(1980:1984, 1990:1997))
 }
 \arguments{
-\item{mmb}{- time series of mmb at mating to average}
+\item{mmb}{\itemize{
+\item time series of mmb at mating to average
+}}
 
-\item{years}{- years to incude in average}
+\item{years}{\itemize{
+\item years to incude in average
+}}
 }
 \value{
 \eqn{B_{MSY}} (in t)

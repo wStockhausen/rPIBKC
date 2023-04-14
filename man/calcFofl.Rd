@@ -7,15 +7,25 @@
 calcFofl(mmb, Bmsy, maxFofl, alpha, beta)
 }
 \arguments{
-\item{mmb}{- MMB at mating (from calcMMBmating())}
+\item{mmb}{\itemize{
+\item MMB at mating (from calcMMBmating())
+}}
 
-\item{Bmsy}{- value for \eqn{B_{MSY}} (from clcBmsy())}
+\item{Bmsy}{\itemize{
+\item value for \eqn{B_{MSY}} (from clcBmsy())
+}}
 
-\item{maxFofl}{- max allowed \eqn{F_{OFL} (= \gamma M)}}
+\item{maxFofl}{\itemize{
+\item max allowed \eqn{F_{OFL} (= \gamma M)}
+}}
 
-\item{alpha}{- value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)}
+\item{alpha}{\itemize{
+\item value for the Tier 4 \eqn{\alpha} constant (the x-intercept of the sloping control rule)
+}}
 
-\item{beta}{- value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)}
+\item{beta}{\itemize{
+\item value for the Tier 4 \eqn{\beta} constant (the threshold for \eqn{MMB/B_{MSY}} to allow directed fishing)
+}}
 }
 \value{
 the value of \eqn{F_{OFL}} given the mmb/Bmsy ratio, using the Tier 4 control rule.

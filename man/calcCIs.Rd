@@ -7,15 +7,25 @@
 calcCIs(vals, cvs, pdfType = "lognormal", ci = 0.95, verbose = FALSE)
 }
 \arguments{
-\item{vals}{- vector of values}
+\item{vals}{\itemize{
+\item vector of values
+}}
 
-\item{cvs}{- vector of cvs}
+\item{cvs}{\itemize{
+\item vector of cvs
+}}
 
-\item{pdfType}{- probability distribution for error bars}
+\item{pdfType}{\itemize{
+\item probability distribution for error bars
+}}
 
-\item{ci}{- confidence interval for error bar plots}
+\item{ci}{\itemize{
+\item confidence interval for error bar plots
+}}
 
-\item{verbose}{- flag (T/F) to print intermediate output}
+\item{verbose}{\itemize{
+\item flag (T/F) to print intermediate output
+}}
 }
 \value{
 list with vectors lci, uci as  named elements

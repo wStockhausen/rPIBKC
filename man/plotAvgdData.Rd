@@ -7,22 +7,32 @@
 plotAvgdData(dfr, yr2 = 1990, maxY = NULL, verbose = FALSE, showPlot = FALSE)
 }
 \arguments{
-\item{dfr}{- dataframe output from one of the surveyAveraging functions}
+\item{dfr}{\itemize{
+\item dataframe output from one of the surveyAveraging functions
+}}
 
-\item{yr2}{- starting year for 2nd arithmetic-scale plot}
+\item{yr2}{\itemize{
+\item starting year for 2nd arithmetic-scale plot
+}}
 
-\item{maxY}{- optional max scale for arithmetic-scale y axes}
+\item{maxY}{\itemize{
+\item optional max scale for arithmetic-scale y axes
+}}
 
-\item{verbose}{- flag (T/F) to print intermediate output}
+\item{verbose}{\itemize{
+\item flag (T/F) to print intermediate output
+}}
 
-\item{showPlot}{- flag (T/F) to show plots immediately}
+\item{showPlot}{\itemize{
+\item flag (T/F) to show plots immediately
+}}
 }
 \value{
-list with ggplot2 objects as named elements 
+list with ggplot2 objects as named elements
 \itemize{
- \item arScl1 - arithmetic scale plot
- \item arScl2 - arithmetic scale plot, sstarting at yr2
- \item lnScl = log-scale plot
+\item arScl1 - arithmetic scale plot
+\item arScl2 - arithmetic scale plot, sstarting at yr2
+\item lnScl = log-scale plot
 }
 }
 \description{

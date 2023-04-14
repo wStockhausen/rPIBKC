@@ -18,54 +18,74 @@ surveyAveraging.RE(
 )
 }
 \arguments{
-\item{maxYr}{- max year for output (typically assessment year)}
+\item{maxYr}{\itemize{
+\item max year for output (typically assessment year)
+}}
 
-\item{srvData}{- raw survey data dataframe}
+\item{srvData}{\itemize{
+\item raw survey data dataframe
+}}
 
-\item{type}{- data type ('abundance' or 'biomass') to average}
+\item{type}{\itemize{
+\item data type ('abundance' or 'biomass') to average
+}}
 
-\item{sex}{- sex ('male' or 'female') to average}
+\item{sex}{\itemize{
+\item sex ('male' or 'female') to average
+}}
 
-\item{category}{- category ('immature','mature', or 'legal') to average}
+\item{category}{\itemize{
+\item category ('immature','mature', or 'legal') to average
+}}
 
-\item{pdfType}{- distribution for CIs}
+\item{pdfType}{\itemize{
+\item distribution for CIs
+}}
 
-\item{ci}{- confidence interval for CIs}
+\item{ci}{\itemize{
+\item confidence interval for CIs
+}}
 
-\item{modelPath}{- path to ADMB RE model used for survey averaging}
+\item{modelPath}{\itemize{
+\item path to ADMB RE model used for survey averaging
+}}
 
-\item{verbose}{- flag (T/F) to print intermediate output}
+\item{verbose}{\itemize{
+\item flag (T/F) to print intermediate output
+}}
 
-\item{showPlot}{- flag (T/F) to plot results}
+\item{showPlot}{\itemize{
+\item flag (T/F) to plot results
+}}
 }
 \value{
 list with a dataframe ('dfr') and another list ('lst') as elements. T
 he dataframe is the smoothed survey data, with columns
 \itemize{
- \item year = survey year
- \item type = 'RE'
- \item value = averaged or predicted value
- \item lci   = lower confidence interval
- \item uci   = upper confidence interval
+\item year = survey year
+\item type = 'RE'
+\item value = averaged or predicted value
+\item lci   = lower confidence interval
+\item uci   = upper confidence interval
 }
 The list contains other results from the model optimization, including
 \itemize{
- \item objFun = the final objective function value
- \item maxGrad = the max gradient 
- \item sdrepSdLam = the estimated process error standard deviation, on the arithmetic scale
- \item sdrepSdLam.sd = the standard deviation of the estimated process error standard deviation, on the arithmetic scale
- \item and others
+\item objFun = the final objective function value
+\item maxGrad = the max gradient
+\item sdrepSdLam = the estimated process error standard deviation, on the arithmetic scale
+\item sdrepSdLam.sd = the standard deviation of the estimated process error standard deviation, on the arithmetic scale
+\item and others
 }
 }
 \description{
 Function to smooth/interpolate survey data using a random effects/kalman filter model (RE).
 }
 \details{
-This function uses an ADMB random effects model (originally developed by Jim Ianelli 
+This function uses an ADMB random effects model (originally developed by Jim Ianelli
 and subsequently modified by William Stockhausen) to smooth/interpolate survey data.
 
 Smoothing is done using a Kalman Filter/Random Effects model
-written in ADMB (C++) code. The single estimated parameter is the 
+written in ADMB (C++) code. The single estimated parameter is the
 ln-scale process error variance for annual changes in survey abundance/biomass
 modeled as a random walk process. The estimated time series is output.
 }

@@ -7,18 +7,20 @@
 getFisheryData(fn = NULL)
 }
 \arguments{
-\item{fn}{- fishery data filename}
+\item{fn}{\itemize{
+\item fishery data filename
+}}
 }
 \value{
 dataframe with columns
 \itemize{
- \item year
- \item type (abundance/biomass)
- \item fishery
- \item gear (pot/trawl)
- \item units
- \item category
- \item catch
+\item year
+\item type (abundance/biomass)
+\item fishery
+\item gear (pot/trawl)
+\item units
+\item category
+\item catch
 }
 Input units are converted to t (biomass) and millions (abundance).
 }

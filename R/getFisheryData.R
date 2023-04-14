@@ -19,6 +19,7 @@
 #'}
 #' Input units are converted to t (biomass) and millions (abundance).
 #'
+#'@importFrom utils read.csv
 #'@importFrom wtsUtilities selectFile
 #'
 #'@export

@@ -17,32 +17,50 @@ surveyAveraging.IV(
 )
 }
 \arguments{
-\item{srvData}{- raw survey data dataframe}
+\item{srvData}{\itemize{
+\item raw survey data dataframe
+}}
 
-\item{type}{- data type ('abundance' or 'biomass') to average}
+\item{type}{\itemize{
+\item data type ('abundance' or 'biomass') to average
+}}
 
-\item{sex}{- sex ('male' or 'female') to average}
+\item{sex}{\itemize{
+\item sex ('male' or 'female') to average
+}}
 
-\item{category}{- category ('immature','mature', or 'legal') to average}
+\item{category}{\itemize{
+\item category ('immature','mature', or 'legal') to average
+}}
 
-\item{n}{- number of years to average across}
+\item{n}{\itemize{
+\item number of years to average across
+}}
 
-\item{pdfType}{- distribution for CIs}
+\item{pdfType}{\itemize{
+\item distribution for CIs
+}}
 
-\item{ci}{- confidence interval for CIs}
+\item{ci}{\itemize{
+\item confidence interval for CIs
+}}
 
-\item{verbose}{- flag (T/F) to print intermediate output}
+\item{verbose}{\itemize{
+\item flag (T/F) to print intermediate output
+}}
 
-\item{showPlot}{- flag (T/F) to plot results}
+\item{showPlot}{\itemize{
+\item flag (T/F) to plot results
+}}
 }
 \value{
 dataframe with inverse-variance averaged survey data, with columns
 \itemize{
- \item year = survey year
- \item type = 'IV'
- \item value = averaged value
- \item lci   = lower confidence interval
- \item uci   = upper confidence interval
+\item year = survey year
+\item type = 'IV'
+\item value = averaged value
+\item lci   = lower confidence interval
+\item uci   = upper confidence interval
 }
 }
 \description{

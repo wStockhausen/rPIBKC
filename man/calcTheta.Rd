@@ -7,23 +7,29 @@
 calcTheta(mmbLst, assYr = 2014, n = 3)
 }
 \arguments{
-\item{mmbLst}{- output from \code{\link{calcMMBMating}}}
+\item{mmbLst}{\itemize{
+\item output from \code{\link{calcMMBMating}}
+}}
 
-\item{assYr}{- assesssment year}
+\item{assYr}{\itemize{
+\item assesssment year
+}}
 
-\item{n}{- number of years to include in average}
+\item{n}{\itemize{
+\item number of years to include in average
+}}
 }
 \value{
 2-element vector with \eqn{\theta} calculated as
 \enumerate{
- \item \eqn{\theta = \frac{\sum_y M_{F_{y}}}{\sum_y MMB_{{fishing}_{y}}}}        [ratio of averages]
- \item \eqn{\theta = \frac{1}{N}\sum_y \frac{M_{F_{y}}}{{MMB}_{{fishing}_{y}})}} [average of ratios]
+\item \eqn{\theta = \frac{\sum_y M_{F_{y}}}{\sum_y MMB_{{fishing}_{y}}}}        \link{ratio of averages}
+\item \eqn{\theta = \frac{1}{N}\sum_y \frac{M_{F_{y}}}{{MMB}_{{fishing}_{y}})}} \link{average of ratios}
 }
 where
 \itemize{
- \item \emph{N} = number of years over which to average
- \item \eqn{M_{F_{y}}} = total discard-related mortality on mature males in year \emph{y}
- \item \eqn{{MMB}_{{fishing}_{y}}} = MMB just prior to the (pulse) fishery
+\item \emph{N} = number of years over which to average
+\item \eqn{M_{F_{y}}} = total discard-related mortality on mature males in year \emph{y}
+\item \eqn{{MMB}_{{fishing}_{y}}} = MMB just prior to the (pulse) fishery
 }
 }
 \description{

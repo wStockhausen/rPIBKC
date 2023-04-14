@@ -28,18 +28,25 @@
 #'@param t.sf - time (fraction of year) from survey to (pulse) fishery
 #'@param t.fm - time (as fraction of year) from (pulse) fishery to mating
 #'@param pct.male - assumed male percentage
+#'@param rec - assumed recruitment to mature male biomass at time of mating (added to MMB after fishery)
 #'@param verbose - flag (T/F) to print intermediate output
 #'
 #'@return List with elements:
 #'\itemize{
-#'  \item prjMMB = projected MMB to time of mating (in t)
-#'  \item Bmsy   = Tier 4 \eqn{B_{MSY}} (in t),
-#'  \item status = Tier 4 "overfished" status
-#'  \item maxFofl = max allowed \eqn{F_{OFL} (=\gamma \cdot M)} [Tier 4]
-#'  \item Fofl   = Tier 4 \eqn{F_{OFL}}, based on the Tier 4 harvest control rule
-#'  \item retOFL = retained portion of total OFL (in t)
-#'  \item dscOFL = discard portion of total (male + female) OFL (in t)
-#'  \item OFL    = total OFL (in t)
+#'  \item prjMMB - projected MMB to time of mating (in t)
+#'  \item Bmsy   - Tier 4 \eqn{B_{MSY}} (in t),
+#'  \item status - Tier 4 status ("overfished" or "not overfished")
+#'  \item maxFofl - max allowed \eqn{F_{OFL} = \gamma \cdot M} for Tier 4
+#'  \item Fofl   - Tier 4 \eqn{F_{OFL}}, based on the Tier 4 harvest control rule
+#'  \item retOFL - retained portion of total OFL (in t)
+#'  \item dscOFL - discard portion of total (male + female) OFL (in t)
+#'  \item OFL    - total OFL (in t)
+#'  \item dscOFL -  discard portion of mature male OFL (in t)
+#'  \item mmbBF - MMB just before fishery
+#'  \item mmbAF - MMB just after fishery
+#'  \item mmbBM - MMB just before mating
+#'  \item rec - recruitment added to mmbBM to obtain prjMMB
+#'  \item status ratio - numerical ratio describing status
 #'}
 #'
 #'@export
@@ -54,6 +61,7 @@ calcOFL<-function(mmbSrvCurr,
                   t.sf=3/12,
                   t.fm=4/12,
                   pct.male=0.5,
+                  rec=0,
                   verbose=FALSE){
     #calc max Fofl
     maxFofl<-gamma*M;
@@ -79,10 +87,20 @@ calcOFL<-function(mmbSrvCurr,
 
     status<-ifelse(prjMMB$mmb/Bmsy<0.5,"overfished","not overfished");
     
-    return(list(prjMMB=prjMMB$mmb,Bmsy=Bmsy,status=status,
-                maxFofl=maxFofl,Fofl=Fofl,
-                retOFL=prjMMB$retM,dscOFL=prjMMB$dscM/pct.male,
-                OFL=prjMMB$retM+prjMMB$dscM/pct.male));
+    return(list(prjMMB=prjMMB$mmb,           #--(projected) MMB-at-mating (after recruitment at mating)
+                Bmsy=Bmsy,
+                status=status,
+                maxFofl=maxFofl,
+                Fofl=Fofl,
+                retOFL=prjMMB$retM,          #--retained catch
+                dscOFL=prjMMB$dscM/pct.male, #--scaled to TOTAL discard mortality
+                OFL=prjMMB$retM+prjMMB$dscM/pct.male, #--total catch OFL
+                dscMM=prjMMB$dscM,           #--mature male discards
+                mmbBF=prjMMB$mmbBF,          #--MMB just before fishery
+                mmbAF=prjMMB$mmbAF,          #--MMB just after fishery
+                mmbBM=prjMMB$mmbBM,          #--MMB just before mating
+                rec=prjMMB$rec,              #--recruitment at mating
+                `status ratio`=prjMMB$mmb/Bmsy));#--numerical status
 }
 
 

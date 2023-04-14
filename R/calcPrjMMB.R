@@ -18,17 +18,22 @@
 #'
 #'@param mmbSrvCurr - current MMB at time of survey
 #'@param Fm         - assumed fishing mortality rate
-#'@param theta      - \eqn{\theta}, the average ratio of discard mortality to MMB at fishing
+#'@param theta      - \eqn{\theta}, the average ratio of mature male discard mortality to MMB at fishing
 #'@param M    - assumed rate of natural mortality
 #'@param t.sf - time from survey to fishery
 #'@param t.fm - time from fishery to mating
+#'@param rec  - assumed recruitment to MMB with mating (0 for PIBKC assessment)
 #'@param verbose - flag (T/F) to print intermediate output
 #'
 #'@return list with elements:
 #'\itemize{
-#'  \item mmb  = mmbMatPrj (t)
+#'  \item mmb  = \eqn{MMB_m} (t), MMB at time of mating (mmbMatPrj)
 #'  \item retM = retained mortality (t)
-#'  \item dscM = discard mortality on MMB (t)
+#'  \item dscM = discard mortality on MMB (t) (**NOT** total discard mortality)
+#'  \item mmbBF = projected MMB just before the fishery (t)
+#'  \item mmbAF = projected MMB just after the fishery (t)
+#'  \item mmbBM = projected MMB just before mating (t)
+#'  \item rec = assumed recruitment to MMB at mating (t)
 #'}
 #'
 #'@export
@@ -39,19 +44,27 @@ calcPrjMMB<-function(mmbSrvCurr,
                      M=0.18,
                      t.sf=3/12,
                      t.fm=4/12,
+                     rec=0,
                      verbose=FALSE){
-
-    #projected MMB at time of fishery
-    mmbFshPrj<-mmbSrvCurr*exp(-M*t.sf);
+#NOTE: these calcs assume fishery occurs before mating/recruitment!!
+    #projected MMB just before fishery
+    mmbBF<-mmbSrvCurr*exp(-M*t.sf);
 
     #projected retained catch
     prjRet<-(1-exp(-Fm))*mmbFshPrj;
 
     #projected discard mortality on MMB
     prjDsc<-theta*mmbFshPrj;
+    
+    #projected MMB just after fishery
+    mmbAF = mmbBF - (pjrRet + prjDsc);
+    
+    #projected MMB just before mating
+    mmbBM = mmbAF*exp(-M*t.fm);
+    
+    #projected MMB just after mating
+    mmbMatPrj<-mmbBM + rec;
 
-    #projected MMB at mating
-    mmbMatPrj<-(mmbFshPrj-prjRet-prjDsc)*exp(-M*t.fm);
-
-    return(list(mmb=mmbMatPrj,retM=prjRet,dscM=prjDsc));
+    return(list(mmb=mmbMatPrj,retM=prjRet,dscM=prjDsc,
+                mmbBF=mmbBF,mmbAF=mmbAF,mmbBM=mmbBM,rec=rec));
 }

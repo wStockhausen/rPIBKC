@@ -15,35 +15,49 @@ plotRawData(
 )
 }
 \arguments{
-\item{srvData}{- survey data dataframe, path to csv file, or NULL}
+\item{srvData}{\itemize{
+\item survey data dataframe, path to csv file, or NULL
+}}
 
-\item{fshData}{- fisheries data dataframe, path to csv file, or NULL}
+\item{fshData}{\itemize{
+\item fisheries data dataframe, path to csv file, or NULL
+}}
 
-\item{yr2}{- starting year for 2nd arithmetic scale plot}
+\item{yr2}{\itemize{
+\item starting year for 2nd arithmetic scale plot
+}}
 
-\item{pdfType}{- probability distribution for error bars}
+\item{pdfType}{\itemize{
+\item probability distribution for error bars
+}}
 
-\item{ci}{- confidence interval for error bar plots}
+\item{ci}{\itemize{
+\item confidence interval for error bar plots
+}}
 
-\item{verbose}{- flag (T/F) to print diagnostics, etc}
+\item{verbose}{\itemize{
+\item flag (T/F) to print diagnostics, etc
+}}
 
-\item{showPlot}{- flag (T/F) to show plots immediately}
+\item{showPlot}{\itemize{
+\item flag (T/F) to show plots immediately
+}}
 }
 \value{
 list with named elements
 \itemize{
- \item srvData - dataframe w/ abundance is in ones and biomass is in t
- \item fshData - dataframe w/ catch biomass is in t
- \item plots - list with ggplot2 objects 
- \itemize{
-     \item retained catch time series
-     \item retained catch time series, recent time period
-     \item discard catch time series
-     \item discard catch time seies, recent time period
-     \item survey biomass time series
-     \item survey biomass time series, recent time period
-     \item survey biomass time series, log10-scale
- }
+\item srvData - dataframe w/ abundance is in ones and biomass is in t
+\item fshData - dataframe w/ catch biomass is in t
+\item plots - list with ggplot2 objects
+\itemize{
+\item retained catch time series
+\item retained catch time series, recent time period
+\item discard catch time series
+\item discard catch time seies, recent time period
+\item survey biomass time series
+\item survey biomass time series, recent time period
+\item survey biomass time series, log10-scale
+}
 }
 }
 \description{

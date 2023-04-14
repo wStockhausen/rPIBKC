@@ -13,6 +13,6 @@ the path (as a string) to the ADMB model
 Function to get the path to the ADMB random effects model (REM) used for survey averaging.
 }
 \details{
-Opens a file selector for the user to select the ADMB model 
+Opens a file selector for the user to select the ADMB model
 using \code{wtsUtilities::selectFile()}.
 }

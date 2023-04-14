@@ -7,27 +7,29 @@
 getSurveyData(fn = NULL)
 }
 \arguments{
-\item{fn}{- survey data filename}
+\item{fn}{\itemize{
+\item survey data filename
+}}
 }
 \value{
-dataframe with same columns as input file. Input units are 
+dataframe with same columns as input file. Input units are
 converted to t (biomass) and ones (abundance).
 }
 \description{
-Function to read survey data (abundance, biomass by sex and category) 
+Function to read survey data (abundance, biomass by sex and category)
 from a csv file and return it as a dataframe.
 }
 \details{
 Uses \code{wtsUtilities::selectFile()}. The input datafile must be a csv
-file with columns 
+file with columns
 \itemize{
- \item year
- \item type (abundance/biomass)
- \item sex
- \item category
- \item units
- \item value
- \item cv
+\item year
+\item type (abundance/biomass)
+\item sex
+\item category
+\item units
+\item value
+\item cv
 }
 Allowable units for abundance are 'ones', 'thousands', 'millions'.
 Allowable units for biomass are 'kg', 't', and "1000's t".

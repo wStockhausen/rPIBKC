@@ -78,6 +78,8 @@
 #'  }
 #'}
 #'
+#'@importFrom utils View
+#'
 #'@export
 #'
 doAssessment<-function(assYr=2014,

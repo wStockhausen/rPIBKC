@@ -13,6 +13,8 @@
 #'
 #'@details None.
 #'
+#'@importFrom stats qlnorm qnorm
+#'
 #'@export
 #'
 calcCIs<-function(vals,cvs,pdfType='lognormal',ci=0.95,verbose=FALSE){

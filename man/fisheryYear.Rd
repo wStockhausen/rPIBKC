@@ -7,7 +7,9 @@
 fisheryYear(year)
 }
 \arguments{
-\item{year}{- the year (as of July 1) of the fishery}
+\item{year}{\itemize{
+\item the year (as of July 1) of the fishery
+}}
 }
 \value{
 the fishery year as a character string. For 2014, this would be '2014/15'

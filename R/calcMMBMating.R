@@ -15,7 +15,10 @@
 #'@param showPlot - flag to show plot (T/F; default=FALSE)
 #'
 #'@details annual estimates of MMB at mating are calculated using
-#'> \deqn{MMB_{mating} = (MMB_{survey} \cdot e^{-M \cdot t_{sf}}-M_F) \cdot e^{-M \cdot t_{fm}}}
+#'
+#'  \deqn{MMB_{mating} = (MMB_{survey} \cdot e^{-M \cdot t_{sf}}-M_F) \cdot e^{-M \cdot t_{fm}}}
+#'  
+#'  
 #'where
 #'\itemize{
 #'  \item \eqn{MMB_{survey}} is MMB at the time of the survey

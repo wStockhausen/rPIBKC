@@ -18,44 +18,64 @@ calcMMBMating(
 )
 }
 \arguments{
-\item{fshData}{- dataframe with fishery data}
+\item{fshData}{\itemize{
+\item dataframe with fishery data
+}}
 
-\item{avgSrvData}{- dataframe with MMB at time of survey}
+\item{avgSrvData}{\itemize{
+\item dataframe with MMB at time of survey
+}}
 
-\item{avgType}{- type of survey MMB to use ('raw', 'IV' or 'RE'; default='RE')}
+\item{avgType}{\itemize{
+\item type of survey MMB to use ('raw', 'IV' or 'RE'; default='RE')
+}}
 
-\item{M}{- assumed rate of natural mortality (default=0.18)}
+\item{M}{\itemize{
+\item assumed rate of natural mortality (default=0.18)
+}}
 
-\item{t.sf}{- time from survey to fishery  (default=3/12 year)}
+\item{t.sf}{\itemize{
+\item time from survey to fishery  (default=3/12 year)
+}}
 
-\item{t.fm}{- time from fishery to mating  (default=4/12 year)}
+\item{t.fm}{\itemize{
+\item time from fishery to mating  (default=4/12 year)
+}}
 
-\item{hm.pot}{- handling mortality rate for fixed gear (pot) fisheries (default=0.2)}
+\item{hm.pot}{\itemize{
+\item handling mortality rate for fixed gear (pot) fisheries (default=0.2)
+}}
 
-\item{hm.trl}{- handling mortality rate for trawl fisheries            (default=0.8)}
+\item{hm.trl}{\itemize{
+\item handling mortality rate for trawl fisheries            (default=0.8)
+}}
 
-\item{pct.male}{- assumed male percentage (default=0.5)}
+\item{pct.male}{\itemize{
+\item assumed male percentage (default=0.5)
+}}
 
-\item{showPlot}{- flag to show plot (T/F; default=FALSE)}
+\item{showPlot}{\itemize{
+\item flag to show plot (T/F; default=FALSE)
+}}
 }
 \value{
 list with MMB at mating and other time series. Elements are:
 \itemize{
- \item mmbMat = MB at maturity
- \item mmbFsh = MMB just prior to the fishery
- \item mmbSrv = MMB at survey time
- \item retM = retained mortality
- \item dscM = list with elements: 
- \itemize{
-     \item tot = total discard mortality
-     \item gft = groundfish trawl fisheries mortality
-     \item gfp = groundfish pot fisheries mortality
-     \item crb = crab fisheries discard mortality
- }
- \item plots = list with elements: 
- \itemize{
-     \item MMB = MMB time series ggplot2 plot object 
- }
+\item mmbMat = MB at maturity
+\item mmbFsh = MMB just prior to the fishery
+\item mmbSrv = MMB at survey time
+\item retM = retained mortality
+\item dscM = list with elements:
+\itemize{
+\item tot = total discard mortality
+\item gft = groundfish trawl fisheries mortality
+\item gfp = groundfish pot fisheries mortality
+\item crb = crab fisheries discard mortality
+}
+\item plots = list with elements:
+\itemize{
+\item MMB = MMB time series ggplot2 plot object
+}
 }
 }
 \description{
@@ -63,13 +83,15 @@ Function to calculate MMB at mating.
 }
 \details{
 annual estimates of MMB at mating are calculated using
-> \deqn{MMB_{mating} = (MMB_{survey} \cdot e^{-M \cdot t_{sf}}-M_F) \cdot e^{-M \cdot t_{fm}}}
+
+\deqn{MMB_{mating} = (MMB_{survey} \cdot e^{-M \cdot t_{sf}}-M_F) \cdot e^{-M \cdot t_{fm}}}
+
 where
 \itemize{
- \item \eqn{MMB_{survey}} is MMB at the time of the survey
- \item \eqn{t_{sf}} is the fraction of the year from the survey to the (pulse) fishery
- \item \eqn{t_{fm}} is the fraction of the year from the (pulse) fishery to mating
- \item \eqn{M} is the rate of natural mortality
- \item \eqn{M_F} is total fishing mortality (retained + discard mortality) on mature males
+\item \eqn{MMB_{survey}} is MMB at the time of the survey
+\item \eqn{t_{sf}} is the fraction of the year from the survey to the (pulse) fishery
+\item \eqn{t_{fm}} is the fraction of the year from the (pulse) fishery to mating
+\item \eqn{M} is the rate of natural mortality
+\item \eqn{M_F} is total fishing mortality (retained + discard mortality) on mature males
 }
 }

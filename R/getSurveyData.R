@@ -23,6 +23,7 @@
 #' Allowable units for abundance are 'ones', 'thousands', 'millions'.
 #' Allowable units for biomass are 'kg', 't', and "1000's t".
 #' 
+#'@importFrom utils read.csv
 #' @import wtsUtilities
 #' 
 #'@export
