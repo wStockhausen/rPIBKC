@@ -58,7 +58,7 @@ calcPrjMMB<-function(mmbSrvCurr,
     prjDsc<-theta*mmbBF;
     
     #projected MMB just after fishery
-    mmbAF = mmbBF - (pjrRet + prjDsc);
+    mmbAF = mmbBF - (prjRet + prjDsc);
     
     #projected MMB just before mating
     mmbBM = mmbAF*exp(-M*t.fm);
